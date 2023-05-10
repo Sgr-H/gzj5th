@@ -16,17 +16,31 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    bridgemanager.cpp \
     main.cpp \
+    log.cpp \
     widgetui.cpp
 
 HEADERS += \
-    widgetui.h
+    bridgemanager.h \
+    widgetui.h \
+    log.h
 
 FORMS += \
     widgetui.ui
 # 窗口自定义
 include ($$PWD/framelesscore/framelesscore.pri)
+# 界面
+include ($$PWD/View/View.pri)
+# log4qt日志系统
+include($$PWD/log4qt/src/log4qt/log4qt.pri)
+# 专用库
+include($$PWD/APISgrH/APISgrH.pri)
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    res.qrc

@@ -14,8 +14,15 @@ class Widgetui : public FramelessWidget
 public:
     Widgetui(QWidget *parent = nullptr);
     ~Widgetui();
+signals:
+
+public slots:
 
 private:
+    //函数
+    void init();
+    //变量
     Ui::Widgetui *ui;
+    QSettings *m_uiSelect=nullptr;
 };
 #endif // WIDGETUI_H
