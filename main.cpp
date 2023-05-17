@@ -5,8 +5,12 @@
 #include "APISgrH/singleton.h"
 int main(int argc, char *argv[])
 {
+    //虚拟键盘
+    qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
     QApplication a(argc, argv);
+    //当前进程为主线程
     QThread::currentThread()->setObjectName("主线程");
+    //明确编码格式
     QTextCodec *codec = QTextCodec::codecForName("utf-8");
     QTextCodec::setCodecForLocale(codec);
 

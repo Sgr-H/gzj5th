@@ -7,13 +7,30 @@ IndepElect::IndepElect(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //测试用按钮隐藏
+    ui->pushButton->setVisible(false);
+    ui->pushButton_2->setVisible(false);
+
     m_priStackWidgetCurrentPage=m_stackWidgetCurrentPage;
 
+    //跳转主界面
     connect(ui->pushButton,&QPushButton::clicked,this,[=]{
         this->hide();
         emit showWidgetUI();
     });
+    //清除配置信息
     connect(ui->pushButton_2,&QPushButton::clicked,this,&IndepElect::clearCfg);
+    //跳转到登录界面
+    connect(ui->pushButton_3,&QPushButton::clicked,[=]{
+        Singleton<BridgeManager>::getInstance().LogInWidgetIns()->show();
+    });
+    //跳转日志
+    connect(ui->logbtn,&QPushButton::clicked,[=]{
+        Singleton<BridgeManager>::getInstance().logPrintWidgetINS()->show();
+    });
+    //滑动
+    QScroller *scl = QScroller::scroller(ui->scrollArea);
+    scl->grabGesture(ui->scrollArea,QScroller::LeftMouseButtonGesture);
 }
 
 IndepElect::~IndepElect()
@@ -21,6 +38,7 @@ IndepElect::~IndepElect()
     delete ui;
 }
 
+//界面跳转重新布局
 void IndepElect::SlotPriEquip(const int &var)
 {
     m_priStackWidgetCurrentPage=m_stackWidgetCurrentPage;
@@ -28,21 +46,42 @@ void IndepElect::SlotPriEquip(const int &var)
     if(m_stackWidgetCurrentPage>0)
         m_stackWidgetCurrentPage--;
     if(m_priStackWidgetCurrentPage!=m_stackWidgetCurrentPage){
+        deleteAllitemsOfLayout(ui->horizontalLayout_3);
+        deleteAllitemsOfLayout(ui->horizontalLayout_9);
+        deleteAllitemsOfLayout(ui->horizontalLayout_18);
+        deleteAllitemsOfLayout(ui->horizontalLayout_19);
+        deleteAllitemsOfLayout(ui->horizontalLayout_20);
+        deleteAllitemsOfLayout(ui->horizontalLayout_21);
+        deleteAllitemsOfLayout(ui->gridLayout_20);
         switch (m_stackWidgetCurrentPage) {
         case 0:
-            if(m_priStackWidgetCurrentPage==1){
-//                ui->horizontalLayout_3->removeWidget(ui->frame_2);
-                deleteAllitemsOfLayout(ui->horizontalLayout_3);
-                ui->horizontalLayout_9->addWidget(ui->frame_2);
-            }
+            ui->horizontalLayout_9->addWidget(ui->frame_2);
             break;
         case 1:
-            if(m_priStackWidgetCurrentPage==0){
-//                ui->horizontalLayout_9->removeWidget(ui->frame_2);
-                deleteAllitemsOfLayout(ui->horizontalLayout_9);
-                ui->horizontalLayout_3->addWidget(ui->frame);
-                ui->horizontalLayout_3->addWidget(ui->frame_2);
-            }
+            //                ui->horizontalLayout_9->removeWidget(ui->frame_2);
+            ui->horizontalLayout_3->addWidget(ui->frame);
+            ui->horizontalLayout_3->addWidget(ui->frame_2);
+            break;
+        case 2:
+            ui->horizontalLayout_18->addWidget(ui->frame_3);
+            break;
+        case 3:
+            ui->horizontalLayout_19->addWidget(ui->frame_4);
+            break;
+        case 4:
+            ui->horizontalLayout_20->addWidget(ui->frame_5);
+            break;
+        case 5:
+            ui->horizontalLayout_21->addWidget(ui->frame_8);
+            break;
+        case 6:
+            ui->gridLayout_20->addWidget(ui->frame_2);
+            ui->gridLayout_20->addWidget(ui->frame);
+            ui->gridLayout_20->addWidget(ui->frame_3);
+            ui->gridLayout_20->addWidget(ui->frame_4);
+            ui->gridLayout_20->addWidget(ui->frame_5);
+            ui->gridLayout_20->addWidget(ui->frame_8);
+            //            ui->scrollArea->widget()->setLayout(ui->gridLayout_20);
             break;
         default:
             break;
@@ -55,17 +94,17 @@ void IndepElect::SlotPriEquip(const int &var)
 void IndepElect::deleteAllitemsOfLayout(QLayout *layout)
 {
     QLayoutItem *child;
-        while ((child = layout->takeAt(0)) != nullptr)
+    while ((child = layout->takeAt(0)) != nullptr)
+    {
+        //setParent为NULL，防止删除之后界面不消失
+        if(child->widget())
         {
-            //setParent为NULL，防止删除之后界面不消失
-            if(child->widget())
-            {
-                child->widget()->setParent(nullptr);
-            }
-            else if(child->layout())
-            {
-                deleteAllitemsOfLayout(child->layout());
-            }
-            delete child;
+            child->widget()->setParent(nullptr);
         }
+        else if(child->layout())
+        {
+            deleteAllitemsOfLayout(child->layout());
+        }
+        delete child;
+    }
 }

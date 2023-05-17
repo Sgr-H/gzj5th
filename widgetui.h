@@ -21,6 +21,7 @@ public slots:
 private:
     //函数
     void init();
+    void jumpWriteSetting(int _var);
     //变量
     Ui::Widgetui *ui;
     QSettings *m_uiSelect=nullptr;

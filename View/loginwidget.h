@@ -2,21 +2,30 @@
 #define LOGINWIDGET_H
 
 #include <QWidget>
+#include "framelesscore/framelesswidget.h"
 
 namespace Ui {
 class LogInWidget;
 }
 
-class LogInWidget : public QWidget
+class LogInWidget : public FramelessWidget
 {
     Q_OBJECT
 
 public:
-    explicit LogInWidget(QWidget *parent = nullptr);
+    LogInWidget(QWidget *parent = nullptr);
     ~LogInWidget();
+signals:
+    void login(); //登录主界面信号
+    void close_window(); //关闭登录界面信号
 
+public slots:
+    void btn_return_clicked(); //重置按钮按下后触发的事件
+    void btn_log_clicked(); //登录按钮按下后触发的事件
 private:
     Ui::LogInWidget *ui;
+    QString m_username;  // 自己设定的账号
+    QString m_password;  // 自己设定的密码
 };
 
 #endif // LOGINWIDGET_H
