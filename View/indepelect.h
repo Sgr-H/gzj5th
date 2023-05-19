@@ -19,12 +19,18 @@ signals:
     void clearCfg();//清除配置文件
 public slots:
     void SlotPriEquip(const int &var);
+    void timeUpdata(void);
 private:
     //变量
     Ui::IndepElect *ui;
+    //时间刷新
+    QTimer *timerFlush = nullptr;
+    //存储时间
+    QString timeNow=nullptr;
     int m_stackWidgetCurrentPage=0;
     int m_priStackWidgetCurrentPage=0;
     //函数
+    void init();
     void deleteAllitemsOfLayout(QLayout* layout);
 };
 

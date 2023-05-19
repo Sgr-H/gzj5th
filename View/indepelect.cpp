@@ -7,6 +7,7 @@ IndepElect::IndepElect(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    init();
     //测试用按钮隐藏
     ui->pushButton->setVisible(false);
     ui->pushButton_2->setVisible(false);
@@ -28,6 +29,7 @@ IndepElect::IndepElect(QWidget *parent) :
     connect(ui->logbtn,&QPushButton::clicked,[=]{
         Singleton<BridgeManager>::getInstance().logPrintWidgetINS()->show();
     });
+    connect(timerFlush,&QTimer::timeout,this,&IndepElect::timeUpdata);
     //滑动
     QScroller *scl = QScroller::scroller(ui->scrollArea);
     scl->grabGesture(ui->scrollArea,QScroller::LeftMouseButtonGesture);
@@ -88,6 +90,19 @@ void IndepElect::SlotPriEquip(const int &var)
         }
     }
     ui->stackedWidget->setCurrentIndex(m_stackWidgetCurrentPage);
+}
+
+void IndepElect::timeUpdata()
+{
+    QDateTime time =QDateTime::currentDateTime();
+    timeNow=time.toString("yyyy-MM-dd hh:mm:ss ddd");
+    ui->label_time->setText(timeNow);
+}
+
+void IndepElect::init()
+{
+    timerFlush=new QTimer(this);
+    timerFlush->start(1000);
 }
 
 //清空布局
