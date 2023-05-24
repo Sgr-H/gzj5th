@@ -11,25 +11,9 @@ IndepElect::IndepElect(QWidget *parent) :
     //测试用按钮隐藏
     ui->pushButton->setVisible(false);
     ui->pushButton_2->setVisible(false);
-
     m_priStackWidgetCurrentPage=m_stackWidgetCurrentPage;
+    uiConnect();
 
-    //跳转主界面
-    connect(ui->pushButton,&QPushButton::clicked,this,[=]{
-        this->hide();
-        emit showWidgetUI();
-    });
-    //清除配置信息
-    connect(ui->pushButton_2,&QPushButton::clicked,this,&IndepElect::clearCfg);
-    //跳转到登录界面
-    connect(ui->pushButton_3,&QPushButton::clicked,[=]{
-        Singleton<BridgeManager>::getInstance().LogInWidgetIns()->show();
-    });
-    //跳转日志
-    connect(ui->logbtn,&QPushButton::clicked,[=]{
-        Singleton<BridgeManager>::getInstance().logPrintWidgetINS()->show();
-    });
-    connect(timerFlush,&QTimer::timeout,this,&IndepElect::timeUpdata);
     //滑动
     QScroller *scl = QScroller::scroller(ui->scrollArea);
     scl->grabGesture(ui->scrollArea,QScroller::LeftMouseButtonGesture);
@@ -105,6 +89,32 @@ void IndepElect::init()
     timerFlush->start(1000);
 }
 
+void IndepElect::uiConnect()
+{
+    //跳转数据界面1
+    connect(ui->pushButton,&QPushButton::clicked,this,[=]{
+        Singleton<BridgeManager>::getInstance().date1ViewINS()->show();
+//        this->hide();
+//        emit showWidgetUI();
+    });
+    //清除配置信息
+    connect(ui->pushButton_2,&QPushButton::clicked,this,&IndepElect::clearCfg);
+    //跳转到登录界面
+    connect(ui->pushButton_3,&QPushButton::clicked,[=]{
+        Singleton<BridgeManager>::getInstance().LogInWidgetIns()->show();
+    });
+    //跳转日志
+    connect(ui->logbtn,&QPushButton::clicked,[=]{
+        Singleton<BridgeManager>::getInstance().logPrintWidgetINS()->show();
+    });
+    connect(timerFlush,&QTimer::timeout,this,&IndepElect::timeUpdata);
+
+    //跳转数据界面2
+    connect(ui->pushButton_4,&QPushButton::clicked,this,[=]{
+        Singleton<BridgeManager>::getInstance().date2ViewINS()->show();
+    });
+}
+
 //清空布局
 void IndepElect::deleteAllitemsOfLayout(QLayout *layout)
 {
@@ -122,4 +132,12 @@ void IndepElect::deleteAllitemsOfLayout(QLayout *layout)
         }
         delete child;
     }
+}
+
+void IndepElect::DIOVisial(int var)
+{
+    if(var==0)
+        ui->pushButton->setVisible(false);
+    else
+        ui->pushButton->setVisible(true);
 }

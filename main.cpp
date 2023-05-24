@@ -4,7 +4,6 @@
 #include "log.h"
 #include "APISgrH/singleton.h"
 
-#include "View/date2view.h"
 int main(int argc, char *argv[])
 {
     //虚拟键盘
@@ -24,10 +23,12 @@ int main(int argc, char *argv[])
     //    Log::instance()->info("信息测试日志系统当中...");
     //    Log::instance()->warn("警告测试日志系统当中...");
     //    Log::instance()->error("错误测试日志系统当中...");
-    date2View d;
-    d.show();
-//    Widgetui w;
-//    w.setWindowTitle(QString::fromUtf8("冠之杰网关"));
+
+//    date3Elect d;
+//    d.show();
+
+    Widgetui w;
+    w.setWindowTitle(QString::fromUtf8("冠之杰网关"));
     //    w.show();
     return a.exec();
 }

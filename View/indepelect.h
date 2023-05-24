@@ -14,6 +14,9 @@ class IndepElect : public FramelessWidget
 public:
     IndepElect(QWidget *parent = nullptr);
     ~IndepElect();
+    //函数
+    void DIOVisial(int var);
+
 signals:
     void showWidgetUI();//显示主界面
     void clearCfg();//清除配置文件
@@ -31,6 +34,7 @@ private:
     int m_priStackWidgetCurrentPage=0;
     //函数
     void init();
+    void uiConnect();
     void deleteAllitemsOfLayout(QLayout* layout);
 };
 

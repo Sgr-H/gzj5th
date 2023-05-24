@@ -6,8 +6,9 @@ date1View::date1View(QWidget *parent) :
     ui(new Ui::date1View)
 {
     ui->setupUi(this);
-
+    this->setGeometry(0,0,1024,600);
     CreateView();
+    uiConnect();
 }
 
 date1View::~date1View()
@@ -70,5 +71,11 @@ void date1View::CreateView()
         ui->tableView_2->setSelectionBehavior(QAbstractItemView::SelectRows); //设置选中时整行选中
         ui->tableView_2->setEditTriggers(QAbstractItemView::NoEditTriggers);  //设置表格属性只读，不能编辑
     //    ui->tableView->setContextMenuPolicy(Qt::CustomContextMenu);         //需要在表格使用右键菜单，需要启动该属性
-    //    ui->tableView->sortByColumn(0,Qt::AscendingOrder);                 //表格第0列，按降序排列
+        //    ui->tableView->sortByColumn(0,Qt::AscendingOrder);                 //表格第0列，按降序排列
+}
+
+void date1View::uiConnect()
+{
+    connect(ui->pushButton,&QPushButton::clicked,this,&date1View::hide);
+
 }

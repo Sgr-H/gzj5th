@@ -1,12 +1,15 @@
 #include "date2view.h"
 #include "ui_date2view.h"
+#include "bridgemanager.h"
 
 date2View::date2View(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::date2View)
 {
     ui->setupUi(this);
+    this->setGeometry(0,0,1024,600);
     CreateView();
+    uiConnect();
 }
 
 date2View::~date2View()
@@ -55,4 +58,12 @@ void date2View::CreateView()
     ui->tableView->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
     ui->tableView->horizontalScrollBar()->hide();               //隐藏滚动条
 
+}
+
+void date2View::uiConnect()
+{
+    connect(ui->pushButton,&QPushButton::clicked,this,&date2View::hide);//隐藏该界面
+    connect(ui->pushButton_4,&QPushButton::clicked,this,[=]{
+       Singleton<BridgeManager>::getInstance().date3ElectINS()->show();
+    });
 }

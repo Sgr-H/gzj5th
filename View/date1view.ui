@@ -227,7 +227,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_5" stretch="1,1">
+       <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,0">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0">
           <item>
@@ -298,7 +298,7 @@
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>250</height>
+            <height>40</height>
            </size>
           </property>
          </spacer>

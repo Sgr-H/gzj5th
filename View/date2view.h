@@ -25,6 +25,8 @@ private:
     QPushButton *m_mbusBtn;
     QStandardItemModel *standItemModel1;
     Ui::date2View *ui;
+    //函数
+    void uiConnect();
 };
 
 #endif // DATE2VIEW_H

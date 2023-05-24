@@ -15,7 +15,7 @@ public:
     explicit date1View(QWidget *parent = nullptr);
     ~date1View();
     void CreateView();
-
+    void uiConnect();
 private:
     //变量
     Ui::date1View *ui;

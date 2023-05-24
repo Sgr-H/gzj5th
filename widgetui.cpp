@@ -6,10 +6,11 @@ Widgetui::Widgetui(QWidget *parent)
     , ui(new Ui::Widgetui)
 {
     ui->setupUi(this);
-//    Singleton<BridgeManager>::getInstance().LogInWidgetIns()->show();
+    //    Singleton<BridgeManager>::getInstance().LogInWidgetIns()->show();
     ui->pushButton_9->setVisible(false);
     ui->pushButton_10->setVisible(false);
     ui->pushButton_11->setVisible(false);
+    ui->radioButton->setVisible(false);
     this->show();
     init();
 }
@@ -69,11 +70,23 @@ void Widgetui::init()
     });
     //收到登录信号
     connect(Singleton<BridgeManager>::getInstance().LogInWidgetIns(),&LogInWidget::login,this,[=]{
-        ui->pushButton_9->setVisible(true);
+        if(!ui->pushButton_9->isVisible())
+            ui->pushButton_9->setVisible(true);
+        if(!ui->pushButton_10->isVisible())
         ui->pushButton_10->setVisible(true);
+        if(!ui->pushButton_11->isVisible())
         ui->pushButton_11->setVisible(true);
+        if(!ui->radioButton->isVisible())
+        ui->radioButton->setVisible(true);
         this->show();
         Singleton<BridgeManager>::getInstance().IndepElectINS()->hide();
+    });
+    //显示设备开关量单选按钮
+    connect(ui->radioButton,&QRadioButton::toggled,this,[=]{
+        if(ui->radioButton->isChecked())
+            Singleton<BridgeManager>::getInstance().IndepElectINS()->DIOVisial(1);
+        else
+            Singleton<BridgeManager>::getInstance().IndepElectINS()->DIOVisial(0);
     });
 
 }
