@@ -20,12 +20,18 @@ private:
     //变量
     QStandardItemModel *standItemModel1;
     QStandardItemModel *standItemModel2;
+    QStandardItemModel *standItemModel3;
+    QStandardItemModel *standItemModel4;
+    QStandardItemModel *standItemModel5;
     //标记位
     quint8 electOrTemp;
     //函数
     void initdate3Elect();
     void CreateView();
     void CreateView2();
+    void CreateView3();
+    void CreateView4();
+    void CreateView5();
     void uiConnect();
 };
 

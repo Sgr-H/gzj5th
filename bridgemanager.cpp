@@ -46,6 +46,11 @@ date3Elect *BridgeManager::date3ElectINS() const
     return m_date3Elect;
 }
 
+date3Water *BridgeManager::date3WaterINS() const
+{
+    return m_date3Water;
+}
+
 //初始化
 void BridgeManager::init()
 {
@@ -56,6 +61,7 @@ void BridgeManager::init()
     m_date1View=new date1View();
     m_date2View=new date2View();
     m_date3Elect=new date3Elect();
+    m_date3Water=new date3Water();
 }
 //关于UI的信号槽
 void BridgeManager::UIconnect()

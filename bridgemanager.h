@@ -9,6 +9,7 @@
 #include "View/date1view.h"
 #include "View/date2view.h"
 #include "View/date3elect.h"
+#include "View/date3water.h"
 class BridgeManager : public QObject
 {
     SINGLETON(BridgeManager)
@@ -21,7 +22,7 @@ public:
     date1View *date1ViewINS()const;//返回数据界面1实例
     date2View *date2ViewINS()const;//返回数据界面2实例
     date3Elect *date3ElectINS()const;//返回数据界面3电表实例
-
+    date3Water *date3WaterINS()const;//返回数据界面3水表实例
 
     //explicit BridgeManager(QObject *parent = nullptr);
 
@@ -37,6 +38,7 @@ private:
         date1View *m_date1View=nullptr;
         date2View *m_date2View=nullptr;
         date3Elect *m_date3Elect=nullptr;
+        date3Water *m_date3Water=nullptr;
     //函数
     void init();
     void UIconnect();

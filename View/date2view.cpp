@@ -19,6 +19,7 @@ date2View::~date2View()
 
 void date2View::CreateView()
 {
+
     m_4851Btn = new QPushButton("485_1");
     m_4852Btn = new QPushButton("485_2");
     m_4853Btn = new QPushButton("485_3");
@@ -58,12 +59,15 @@ void date2View::CreateView()
     ui->tableView->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
     ui->tableView->horizontalScrollBar()->hide();               //隐藏滚动条
 
+    for (int var = 0; var < 5; ++var) {
+        ui->tableView->verticalHeader()->setSectionResizeMode(var,QHeaderView::Stretch);//设定行表头弹性拉伸
+    }
 }
 
 void date2View::uiConnect()
 {
     connect(ui->pushButton,&QPushButton::clicked,this,&date2View::hide);//隐藏该界面
     connect(ui->pushButton_4,&QPushButton::clicked,this,[=]{
-       Singleton<BridgeManager>::getInstance().date3ElectINS()->show();
+       Singleton<BridgeManager>::getInstance().date3WaterINS()->show();
     });
 }
