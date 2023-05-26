@@ -15,6 +15,7 @@ public:
     explicit date2View(QWidget *parent = nullptr);
     ~date2View();
     void CreateView();
+    void setDeviceSelect(int _var);
 
 private:
     //变量
@@ -25,6 +26,8 @@ private:
     QPushButton *m_mbusBtn;
     QStandardItemModel *standItemModel1;
     Ui::date2View *ui;
+    //标记位
+    quint8 deviceSelct;
     //函数
     void uiConnect();
 };

@@ -94,8 +94,8 @@ void IndepElect::uiConnect()
     //跳转数据界面1
     connect(ui->pushButton,&QPushButton::clicked,this,[=]{
         Singleton<BridgeManager>::getInstance().date1ViewINS()->show();
-//        this->hide();
-//        emit showWidgetUI();
+        //        this->hide();
+        //        emit showWidgetUI();
     });
     //清除配置信息
     connect(ui->pushButton_2,&QPushButton::clicked,this,&IndepElect::clearCfg);
@@ -109,9 +109,27 @@ void IndepElect::uiConnect()
     });
     connect(timerFlush,&QTimer::timeout,this,&IndepElect::timeUpdata);
 
-    //跳转数据界面2
+    //跳转电表数据界面2
     connect(ui->pushButton_4,&QPushButton::clicked,this,[=]{
+        Singleton<BridgeManager>::getInstance().date2ViewINS()->setDeviceSelect(1);
         Singleton<BridgeManager>::getInstance().date2ViewINS()->show();
+    });
+    //跳转水表数据界面2
+    connect(ui->pushButton_5,&QPushButton::clicked,this,[=]{
+        Singleton<BridgeManager>::getInstance().date2ViewINS()->setDeviceSelect(2);
+        Singleton<BridgeManager>::getInstance().date2ViewINS()->show();
+    });
+    //跳转电梯数据界面3
+    connect(ui->pushButton_6,&QPushButton::clicked,this,[=]{
+        Singleton<BridgeManager>::getInstance().date3liftINS()->show();
+    });
+    //跳转空调数据界面3
+    connect(ui->pushButton_7,&QPushButton::clicked,this,[=]{
+        Singleton<BridgeManager>::getInstance().date3AircINS()->show();
+    });
+    //跳转窨井数据界面3
+    connect(ui->pushButton_8,&QPushButton::clicked,this,[=]{
+        Singleton<BridgeManager>::getInstance().date3ShaftINS()->show();
     });
 }
 

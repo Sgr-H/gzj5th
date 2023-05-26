@@ -10,6 +10,10 @@
 #include "View/date2view.h"
 #include "View/date3elect.h"
 #include "View/date3water.h"
+#include "View/date3lift.h"
+#include "View/date3airc.h"
+#include "View/date3shaft.h"
+
 class BridgeManager : public QObject
 {
     SINGLETON(BridgeManager)
@@ -23,6 +27,9 @@ public:
     date2View *date2ViewINS()const;//返回数据界面2实例
     date3Elect *date3ElectINS()const;//返回数据界面3电表实例
     date3Water *date3WaterINS()const;//返回数据界面3水表实例
+    date3lift *date3liftINS()const;//返回数据界面3电梯实例
+    date3Airc *date3AircINS()const;//返回数据界面3空调实例
+    date3Shaft *date3ShaftINS()const;//返回数据界面3窨井实例
 
     //explicit BridgeManager(QObject *parent = nullptr);
 
@@ -39,6 +46,9 @@ private:
         date2View *m_date2View=nullptr;
         date3Elect *m_date3Elect=nullptr;
         date3Water *m_date3Water=nullptr;
+        date3lift *m_date3lift=nullptr;
+        date3Airc *m_date3Airc=nullptr;
+        date3Shaft *m_date3Shaft=nullptr;
     //函数
     void init();
     void UIconnect();

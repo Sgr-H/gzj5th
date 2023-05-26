@@ -64,10 +64,18 @@ void date2View::CreateView()
     }
 }
 
+void date2View::setDeviceSelect(int _var)
+{
+    deviceSelct=_var;
+}
+
 void date2View::uiConnect()
 {
     connect(ui->pushButton,&QPushButton::clicked,this,&date2View::hide);//隐藏该界面
     connect(ui->pushButton_4,&QPushButton::clicked,this,[=]{
-       Singleton<BridgeManager>::getInstance().date3WaterINS()->show();
+        if(deviceSelct==1)
+            Singleton<BridgeManager>::getInstance().date3ElectINS()->show();
+        else if(deviceSelct==2)
+            Singleton<BridgeManager>::getInstance().date3WaterINS()->show();
     });
 }

@@ -208,7 +208,7 @@
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
            <property name="currentIndex">
-            <number>0</number>
+            <number>4</number>
            </property>
            <widget class="QWidget" name="page">
             <layout class="QGridLayout" name="gridLayout_3">
@@ -247,7 +247,7 @@
                        </spacer>
                       </item>
                       <item>
-                       <widget class="QLabel" name="label_15">
+                       <widget class="QPushButton" name="pushButton_4">
                         <property name="text">
                          <string>变配点系统数据监测</string>
                         </property>
@@ -374,7 +374,7 @@
                            </spacer>
                           </item>
                           <item>
-                           <widget class="QPushButton" name="pushButton_4">
+                           <widget class="QLabel" name="label_15">
                             <property name="text">
                              <string>在/离线数统计</string>
                             </property>
@@ -615,12 +615,7 @@
                        </spacer>
                       </item>
                       <item>
-                       <widget class="QLabel" name="label_30">
-                        <property name="font">
-                         <font>
-                          <pointsize>12</pointsize>
-                         </font>
-                        </property>
+                       <widget class="QPushButton" name="pushButton_5">
                         <property name="text">
                          <string>给排水系统</string>
                         </property>
@@ -896,10 +891,17 @@
                   </item>
                   <item row="1" column="1">
                    <layout class="QGridLayout" name="gridLayout_8">
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_2">
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="label_14">
                       <property name="text">
-                       <string>电梯监测器</string>
+                       <string>在/离线数统计</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="1">
+                     <widget class="QLabel" name="label_50">
+                      <property name="text">
+                       <string>报警数/总数</string>
                       </property>
                      </widget>
                     </item>
@@ -907,13 +909,6 @@
                      <widget class="QLabel" name="label_48">
                       <property name="text">
                        <string>离线数/总数</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="0">
-                     <widget class="QLabel" name="label_14">
-                      <property name="text">
-                       <string>在/离线数统计</string>
                       </property>
                      </widget>
                     </item>
@@ -931,10 +926,10 @@
                       </property>
                      </widget>
                     </item>
-                    <item row="2" column="1">
-                     <widget class="QLabel" name="label_50">
+                    <item row="0" column="0">
+                     <widget class="QPushButton" name="pushButton_6">
                       <property name="text">
-                       <string>报警数/总数</string>
+                       <string>电梯监测器</string>
                       </property>
                      </widget>
                     </item>
@@ -1002,13 +997,6 @@
                       </property>
                      </widget>
                     </item>
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_51">
-                      <property name="text">
-                       <string>空调监测器</string>
-                      </property>
-                     </widget>
-                    </item>
                     <item row="1" column="0">
                      <widget class="QLabel" name="label_52">
                       <property name="text">
@@ -1027,6 +1015,13 @@
                      <widget class="QLabel" name="label_53">
                       <property name="text">
                        <string>异常报警数统计</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="0">
+                     <widget class="QPushButton" name="pushButton_7">
+                      <property name="text">
+                       <string>空调监测器</string>
                       </property>
                      </widget>
                     </item>
@@ -1103,8 +1098,8 @@
                  <property name="frameShadow">
                   <enum>QFrame::Raised</enum>
                  </property>
-                 <layout class="QGridLayout" name="gridLayout_16" rowstretch="1,1,50">
-                  <item row="2" column="0">
+                 <layout class="QGridLayout" name="gridLayout_16" rowstretch="1,10">
+                  <item row="1" column="0">
                    <layout class="QHBoxLayout" name="horizontalLayout_17">
                     <property name="spacing">
                      <number>0</number>
@@ -1250,18 +1245,42 @@
                     </item>
                    </layout>
                   </item>
-                  <item row="1" column="0">
-                   <widget class="QLabel" name="label_57">
-                    <property name="layoutDirection">
-                     <enum>Qt::LeftToRight</enum>
-                    </property>
-                    <property name="text">
-                     <string>地下管网窨井液位、水质监测</string>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignCenter</set>
-                    </property>
-                   </widget>
+                  <item row="0" column="0">
+                   <layout class="QHBoxLayout" name="horizontalLayout_23">
+                    <item>
+                     <spacer name="horizontalSpacer_26">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="pushButton_8">
+                      <property name="text">
+                       <string>地下管网窨井液位、水质监测</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_27">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                   </layout>
                   </item>
                  </layout>
                 </widget>

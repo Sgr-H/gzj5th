@@ -51,6 +51,21 @@ date3Water *BridgeManager::date3WaterINS() const
     return m_date3Water;
 }
 
+date3lift *BridgeManager::date3liftINS() const
+{
+    return m_date3lift;
+}
+
+date3Airc *BridgeManager::date3AircINS() const
+{
+    return m_date3Airc;
+}
+
+date3Shaft *BridgeManager::date3ShaftINS() const
+{
+    return m_date3Shaft;
+}
+
 //初始化
 void BridgeManager::init()
 {
@@ -62,6 +77,9 @@ void BridgeManager::init()
     m_date2View=new date2View();
     m_date3Elect=new date3Elect();
     m_date3Water=new date3Water();
+    m_date3lift=new date3lift();
+    m_date3Airc=new date3Airc();
+    m_date3Shaft=new date3Shaft();
 }
 //关于UI的信号槽
 void BridgeManager::UIconnect()

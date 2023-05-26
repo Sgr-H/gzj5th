@@ -20,11 +20,13 @@ private:
     //变量
     QStandardItemModel *standItemModel1;
     QStandardItemModel *standItemModel2;
+    QStandardItemModel *standItemModel3;
     //函数
     void initdate3Water();
     void uiConnect();
     void CreateView();
     void CreateView2();
+    void CreateView3();
 };
 
 #endif // DATE3WATER_H
