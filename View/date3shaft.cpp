@@ -61,12 +61,6 @@ void date3Shaft::CreateView2()
     standItemModel2->setHeaderData(1,Qt::Vertical,QStringLiteral("溶解氧需大于："));
     standItemModel2->setHeaderData(2,Qt::Vertical,QStringLiteral("PH值"));
 
-    standItemModel2->setHeaderData(0,Qt::Horizontal,QStringLiteral("污染限值"));
-    standItemModel2->setHeaderData(1,Qt::Horizontal,QStringLiteral("1类水"));
-    standItemModel2->setHeaderData(2,Qt::Horizontal,QStringLiteral("2类水"));
-    standItemModel2->setHeaderData(3,Qt::Horizontal,QStringLiteral("3类水"));
-    standItemModel2->setHeaderData(4,Qt::Horizontal,QStringLiteral("4类水"));
-    standItemModel2->setHeaderData(5,Qt::Horizontal,QStringLiteral("5类水"));
     {
         //填写具体数值
         standItemModel2->setItem(0,0,new QStandardItem(tr("1类水")));

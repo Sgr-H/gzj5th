@@ -66,6 +66,16 @@ date3Shaft *BridgeManager::date3ShaftINS() const
     return m_date3Shaft;
 }
 
+EquipOpera *BridgeManager::EquipOperaINS() const
+{
+    return m_equipOpera;
+}
+
+CommunicateCfg *BridgeManager::CommunicateCfgINS() const
+{
+    return m_communicateCfg;
+}
+
 //初始化
 void BridgeManager::init()
 {
@@ -80,6 +90,8 @@ void BridgeManager::init()
     m_date3lift=new date3lift();
     m_date3Airc=new date3Airc();
     m_date3Shaft=new date3Shaft();
+    m_equipOpera=new EquipOpera();
+    m_communicateCfg=new CommunicateCfg();
 }
 //关于UI的信号槽
 void BridgeManager::UIconnect()

@@ -18,6 +18,12 @@
 
 //包含的文件
 #include "singleton.h"
+//rapidjson
+#include "rapidjson/document.h"
+//#include "rapidjson/writer.h"
+#include "rapidjson/reader.h"
+#include "rapidjson/prettywriter.h"
+#include "rapidjson/stringbuffer.h"
 
 #define  BOOL_VERIFY(emStatus_bool,switch_bool) \
 if (emStatus_bool == true){return true;}\
@@ -33,5 +39,6 @@ else{return false;}
 #define DATETIME        qPrintable(QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss"))
 #define STRDATETIME     qPrintable(QDateTime::currentDateTime().toString("yyyy-MM-dd-HH-mm-ss"))
 #define STRDATETIMEMS   qPrintable(QDateTime::currentDateTime().toString("yyyy-MM-dd-HH-mm-ss-zzz"))
+#define STRDATETIMEMSSP qPrintable(QDateTime::currentDateTime().toString("yyyyMMddHHmmsszzz"))
 #pragma execution_character_set("utf-8")
 #endif

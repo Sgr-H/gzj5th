@@ -7,12 +7,16 @@ LogInWidget::LogInWidget(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setGeometry(0,0,1024,600);
+    timerFlush=new QTimer(this);
+    timerFlush->start(1000);
     //返回按钮
     connect(ui->btn_return,&QPushButton::clicked,this,&LogInWidget::btn_return_clicked);
     //登录按钮
     connect(ui->btn_log,&QPushButton::clicked,this,&LogInWidget::btn_log_clicked);
     //出发关闭登录窗口的信号连接
     connect(this,&LogInWidget::close_window,this,&LogInWidget::close);
+    //刷新时间
+    connect(timerFlush,&QTimer::timeout,this,&LogInWidget::timeUpdata);
 
     ui->edit_pw->setEchoMode(QLineEdit::Password);//输入的时候就显示圆点
     m_username = "gzj";
@@ -48,4 +52,11 @@ void LogInWidget::btn_log_clicked()
     else // 账号或密码错误
         QMessageBox::information(this, "Warning","Username or Password is wrong !");
 
+}
+
+void LogInWidget::timeUpdata()
+{
+    QDateTime time =QDateTime::currentDateTime();
+    timeNow=time.toString("yyyy-MM-dd hh:mm:ss ddd");
+    ui->label->setText(timeNow);
 }

@@ -88,7 +88,14 @@ void Widgetui::init()
         else
             Singleton<BridgeManager>::getInstance().IndepElectINS()->DIOVisial(0);
     });
-
+    //设备操作按钮跳转
+    connect(ui->pushButton_10,&QPushButton::clicked,this,[=]{
+        Singleton<BridgeManager>::getInstance().EquipOperaINS()->show();
+    });
+    //通讯参数配置按钮跳转
+    connect(ui->pushButton_9,&QPushButton::clicked,this,[=]{
+        Singleton<BridgeManager>::getInstance().CommunicateCfgINS()->show();
+    });
 }
 
 void Widgetui::jumpWriteSetting(int _var)

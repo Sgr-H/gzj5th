@@ -8,6 +8,7 @@ date2View::date2View(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setGeometry(0,0,1024,600);
+    ui->stackedWidget->setCurrentIndex(0);
     CreateView();
     uiConnect();
 }
@@ -72,10 +73,30 @@ void date2View::setDeviceSelect(int _var)
 void date2View::uiConnect()
 {
     connect(ui->pushButton,&QPushButton::clicked,this,&date2View::hide);//隐藏该界面
-    connect(ui->pushButton_4,&QPushButton::clicked,this,[=]{
-        if(deviceSelct==1)
-            Singleton<BridgeManager>::getInstance().date3ElectINS()->show();
-        else if(deviceSelct==2)
-            Singleton<BridgeManager>::getInstance().date3WaterINS()->show();
+    //表格和拓扑图切换
+    connect(ui->pushButton_2,&QPushButton::clicked,this,[=]{
+        ui->stackedWidget->setCurrentIndex(0);
     });
+    connect(ui->pushButton_3,&QPushButton::clicked,this,[=]{
+        ui->stackedWidget->setCurrentIndex(1);
+    });
+    //跳转数据界面3
+    connect(ui->pushButton_5,&QPushButton::clicked,this,&date2View::jmpDate3_Sign);
+    connect(ui->pushButton_6,&QPushButton::clicked,this,&date2View::jmpDate3_Sign);
+    connect(ui->pushButton_7,&QPushButton::clicked,this,&date2View::jmpDate3_Sign);
+    connect(ui->pushButton_8,&QPushButton::clicked,this,&date2View::jmpDate3_Sign);
+    connect(ui->pushButton_9,&QPushButton::clicked,this,&date2View::jmpDate3_Sign);
+    connect(ui->pushButton_10,&QPushButton::clicked,this,&date2View::jmpDate3_Sign);
+
+    //信号连接
+    connect(this,&date2View::jmpDate3_Sign,this,&date2View::jmpDate3);
+
+}
+
+void date2View::jmpDate3()
+{
+    if(deviceSelct==1)
+        Singleton<BridgeManager>::getInstance().date3ElectINS()->show();
+    else if(deviceSelct==2)
+        Singleton<BridgeManager>::getInstance().date3WaterINS()->show();
 }

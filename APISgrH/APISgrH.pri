@@ -1,4 +1,4 @@
-QT       += network sql serialport widgets
+QT       += network sql serialport widgets charts
 
 HEADERS += \
     $$PWD/APISgrH.h \

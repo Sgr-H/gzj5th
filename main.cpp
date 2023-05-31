@@ -3,6 +3,7 @@
 #include <QTextCodec>
 #include "log.h"
 #include "APISgrH/singleton.h"
+#include "Comm/tcpclient.h"
 
 int main(int argc, char *argv[])
 {
@@ -24,11 +25,11 @@ int main(int argc, char *argv[])
     //    Log::instance()->warn("警告测试日志系统当中...");
     //    Log::instance()->error("错误测试日志系统当中...");
 
-//    date3Elect d;
-//    d.show();
+    TcpClient d;
+    d.show();
 
-    Widgetui w;
-    w.setWindowTitle(QString::fromUtf8("冠之杰网关"));
+//    Widgetui w;
+//    w.setWindowTitle(QString::fromUtf8("冠之杰网关"));
     //    w.show();
     return a.exec();
 }

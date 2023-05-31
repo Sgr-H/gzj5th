@@ -107,6 +107,7 @@ void IndepElect::uiConnect()
     connect(ui->logbtn,&QPushButton::clicked,[=]{
         Singleton<BridgeManager>::getInstance().logPrintWidgetINS()->show();
     });
+    //刷新时间
     connect(timerFlush,&QTimer::timeout,this,&IndepElect::timeUpdata);
 
     //跳转电表数据界面2

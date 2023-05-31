@@ -22,10 +22,15 @@ signals:
 public slots:
     void btn_return_clicked(); //重置按钮按下后触发的事件
     void btn_log_clicked(); //登录按钮按下后触发的事件
+    void timeUpdata(void);
 private:
     Ui::LogInWidget *ui;
     QString m_username;  // 自己设定的账号
     QString m_password;  // 自己设定的密码
+    //时间刷新
+    QTimer *timerFlush = nullptr;
+    //存储时间
+    QString timeNow=nullptr;
 };
 
 #endif // LOGINWIDGET_H

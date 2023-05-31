@@ -1,5 +1,4 @@
 QT       += core gui
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -32,6 +31,8 @@ FORMS += \
 include ($$PWD/framelesscore/framelesscore.pri)
 # 界面
 include ($$PWD/View/View.pri)
+# 通讯
+include($$PWD/Comm/Comm.pri)
 # log4qt日志系统
 include($$PWD/log4qt/src/log4qt/log4qt.pri)
 # 专用库

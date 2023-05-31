@@ -17,5 +17,43 @@
         <file>images/titelbac.png</file>
         <file>images/unknown.png</file>
         <file>images/war.png</file>
+        <file>rapidjson/error/en.h</file>
+        <file>rapidjson/error/error.h</file>
+        <file>rapidjson/internal/biginteger.h</file>
+        <file>rapidjson/internal/clzll.h</file>
+        <file>rapidjson/internal/diyfp.h</file>
+        <file>rapidjson/internal/dtoa.h</file>
+        <file>rapidjson/internal/ieee754.h</file>
+        <file>rapidjson/internal/itoa.h</file>
+        <file>rapidjson/internal/meta.h</file>
+        <file>rapidjson/internal/pow10.h</file>
+        <file>rapidjson/internal/regex.h</file>
+        <file>rapidjson/internal/stack.h</file>
+        <file>rapidjson/internal/strfunc.h</file>
+        <file>rapidjson/internal/strtod.h</file>
+        <file>rapidjson/internal/swap.h</file>
+        <file>rapidjson/msinttypes/inttypes.h</file>
+        <file>rapidjson/msinttypes/stdint.h</file>
+        <file>rapidjson/allocators.h</file>
+        <file>rapidjson/cursorstreamwrapper.h</file>
+        <file>rapidjson/document.h</file>
+        <file>rapidjson/encodedstream.h</file>
+        <file>rapidjson/encodings.h</file>
+        <file>rapidjson/filereadstream.h</file>
+        <file>rapidjson/filewritestream.h</file>
+        <file>rapidjson/fwd.h</file>
+        <file>rapidjson/istreamwrapper.h</file>
+        <file>rapidjson/memorybuffer.h</file>
+        <file>rapidjson/memorystream.h</file>
+        <file>rapidjson/ostreamwrapper.h</file>
+        <file>rapidjson/pointer.h</file>
+        <file>rapidjson/prettywriter.h</file>
+        <file>rapidjson/rapidjson.h</file>
+        <file>rapidjson/reader.h</file>
+        <file>rapidjson/schema.h</file>
+        <file>rapidjson/stream.h</file>
+        <file>rapidjson/stringbuffer.h</file>
+        <file>rapidjson/uri.h</file>
+        <file>rapidjson/writer.h</file>
     </qresource>
 </RCC>

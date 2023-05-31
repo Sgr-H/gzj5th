@@ -16,7 +16,8 @@ public:
     ~date2View();
     void CreateView();
     void setDeviceSelect(int _var);
-
+signals:
+    void jmpDate3_Sign();
 private:
     //变量
     QPushButton *m_4851Btn;
@@ -30,6 +31,7 @@ private:
     quint8 deviceSelct;
     //函数
     void uiConnect();
+    void jmpDate3();
 };
 
 #endif // DATE2VIEW_H
