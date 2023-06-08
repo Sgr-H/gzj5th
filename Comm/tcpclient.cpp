@@ -1,6 +1,8 @@
 #include "tcpclient.h"
 #include "ui_tcpclient.h"
 #include "APISgrH/APISgrH.h"
+#include "tcpclientmanager.h"
+#include "log.h"
 
 TcpClient::TcpClient(QWidget *parent) :
     QWidget(parent),
@@ -10,6 +12,7 @@ TcpClient::TcpClient(QWidget *parent) :
     initTcpC();
     initJson();
     uiConnect();
+    toConnect();
 }
 
 TcpClient::~TcpClient()
@@ -41,6 +44,7 @@ void TcpClient::receiveMessages()
 {
     QByteArray messageB=tcpSocket->readAll();
     ui->textBrowser->append("服务端："+QString(messageB));
+    emit Singleton<TcpClientManager>::getInstance().msgParse(QString(messageB));
 }
 
 void TcpClient::socketStateChange(QAbstractSocket::SocketState)
@@ -52,7 +56,7 @@ void TcpClient::socketStateChange(QAbstractSocket::SocketState)
         ui->textBrowser->append(tmpMac);
         tcpSocket->write(tmpMac.toUtf8().data());
         if(!heartBeat->isActive())
-            heartBeat->start(10000);
+            heartBeat->start(30000);
     }
     else if(tcpSocket->state()==tcpSocket->UnconnectedState){
         if(heartBeat->isActive())
@@ -107,14 +111,22 @@ QString TcpClient::getHostMacAddress()
             }
         }
     }
-    qDebug()<<"strMacAddr"<<strMacAddr;
+    Singleton<Log>::getInstance().debug("strMacAddr:  "+strMacAddr);
     return strMacAddr;
 }
 
 void TcpClient::initTcpC()
 {
+    //隐藏
+    ui->lineEdit_2->setVisible(false);
+    ui->lineEdit_3->setVisible(false);
+    ui->pushButton_4->setVisible(false);
+    ui->pushButton_5->setVisible(false);
+
     this->setWindowTitle("客户端");
     //初始化变量
+    Singleton<TcpClientManager>::getInstance();
+
     tcpSocket=new QTcpSocket(this);
     heartBeat=new QTimer(this);
     getLocalHostIP();
@@ -129,10 +141,17 @@ void TcpClient::uiConnect()
             this,SLOT(socketStateChange(QAbstractSocket::SocketState)));
     //心跳定时
     connect(heartBeat,&QTimer::timeout,this,&TcpClient::heartBS);
+
+    //业务层数据发送
+    connect(&Singleton<TcpClientManager>::getInstance(),&TcpClientManager::modelSend,this,&TcpClient::sendMessages);
+
     //按钮信号槽
     connect(ui->pushButton,&QPushButton::clicked,this,&TcpClient::toConnect);
     connect(ui->pushButton_2,&QPushButton::clicked,this,&TcpClient::toDisConnect);
 
+    connect(ui->pushButton_6,&QPushButton::clicked,this,[]{
+        emit Singleton<TcpClientManager>::getInstance().startedCountSignal();
+    });
 }
 
 void TcpClient::initJson()
@@ -142,19 +161,19 @@ void TcpClient::initJson()
     jDHeartB.AddMember(gzj_ProtocolV, Ver_gzjVersion, allocator);
     jDHeartB.AddMember(gzj_FunctionC, FN_gzjHeartBeat, allocator);
     jDHeartB.AddMember(gzj_OperationC, OP_gzjNone, allocator);
-    jDHeartB.AddMember(gzj_FunctionC, AF_gzjAnswerData, allocator);
+    jDHeartB.AddMember(gzj_AnswerF, AF_gzjAnswerNoData, allocator);
 
 
-//    StringBuffer buf;
-//    Writer<rapidjson::StringBuffer> writer(buf);
-//    writer.StartObject();
-//    writer.Key(gzj_RequestC); writer.String(STRDATETIMEMSSP);
-//    writer.Key(gzj_ProtocolV); writer.String(Ver_gzjVersion);
-//    writer.Key(gzj_FunctionC); writer.String(FN_gzjHeartBeat);
-//    writer.Key(gzj_OperationC); writer.String(OP_gzjNone);
-//    writer.Key(gzj_FunctionC); writer.Int(AF_gzjAnswerData);
-//    writer.EndObject();
-//    const char* json_content = buf.GetString();
+    //    StringBuffer buf;
+    //    Writer<rapidjson::StringBuffer> writer(buf);
+    //    writer.StartObject();
+    //    writer.Key(gzj_RequestC); writer.String(STRDATETIMEMSSP);
+    //    writer.Key(gzj_ProtocolV); writer.String(Ver_gzjVersion);
+    //    writer.Key(gzj_FunctionC); writer.String(FN_gzjHeartBeat);
+    //    writer.Key(gzj_OperationC); writer.String(OP_gzjNone);
+    //    writer.Key(gzj_FunctionC); writer.Int(AF_gzjAnswerData);
+    //    writer.EndObject();
+    //    const char* json_content = buf.GetString();
 
 }
 
@@ -174,10 +193,6 @@ void TcpClient::toDisConnect()
 
 void TcpClient::heartBS()
 {
-
-//    Document doc;
-//    doc.Parse(tmpsend.toStdString().c_str());
-
     Value& v1 = jDHeartB[gzj_RequestC];
     v1.SetString(STRDATETIMEMSSP,QString(STRDATETIMEMSSP).size());
     StringBuffer buf;
@@ -186,4 +201,14 @@ void TcpClient::heartBS()
 
     tcpSocket->write(buf.GetString());
     ui->textBrowser->append("客户端："+QString(buf.GetString()));
+}
+
+void TcpClient::sendMessages(const char *_data)
+{
+    if(nullptr==tcpSocket)
+            return;
+        if(tcpSocket->state()==tcpSocket->ConnectedState){
+            tcpSocket->write(_data);
+            ui->textBrowser->append("客户端："+QString(_data));
+        }
 }

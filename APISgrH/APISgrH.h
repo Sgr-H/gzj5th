@@ -13,13 +13,16 @@
 
 #define Ver_gzjVersion "1.0"
 #define FN_gzjHeartBeat "A1"
+#define FN_gzjDeviceTI "A2"
 #define OP_gzjNone "00"
 #define OP_gzjRead "03"
 #define OP_gzjWrite "06"
 #define OP_gzjWriteSpi "16"
 #define AF_gzjNoAnswer 0
-#define AF_gzjAnswerData 1
-#define AF_gjzAnswerNoData 2
+#define AF_gzjAnswerNoData 1
+#define AF_gjzAnswerData 2
+
+#define domIsGZJprotocol dom.HasMember(gzj_RequestC) && dom[gzj_RequestC].IsString() && dom.HasMember(gzj_ProtocolV) && dom[gzj_ProtocolV].GetString()==tr(Ver_gzjVersion) && dom.HasMember(gzj_FunctionC) && dom[gzj_FunctionC].IsString() && dom.HasMember(gzj_OperationC) && dom[gzj_OperationC].IsString() && dom.HasMember(gzj_AnswerF) && dom[gzj_AnswerF].IsInt()
 
 
 #endif // APISGRH_H

@@ -16,12 +16,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     bridgemanager.cpp \
+    gzjsqlite.cpp \
     main.cpp \
     log.cpp \
     widgetui.cpp
 
 HEADERS += \
     bridgemanager.h \
+    gzjsqlite.h \
     widgetui.h \
     log.h
 

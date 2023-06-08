@@ -15,6 +15,10 @@
 #include "View/date3shaft.h"
 #include "View/equipopera.h"
 #include "View/communicatecfg.h"
+#include "Comm/tcpclient.h"
+
+#include "log.h"
+
 
 class BridgeManager : public QObject
 {
@@ -34,6 +38,7 @@ public:
     date3Shaft *date3ShaftINS()const;//返回数据界面3窨井实例
     EquipOpera *EquipOperaINS()const;//返回设备操作实例
     CommunicateCfg *CommunicateCfgINS()const;//返回通信参数配置实例
+    TcpClient *TcpClientINS()const;//返回tcp通信客户端实例
 
     //explicit BridgeManager(QObject *parent = nullptr);
 
@@ -55,6 +60,7 @@ private:
         date3Shaft *m_date3Shaft=nullptr;
         EquipOpera *m_equipOpera=nullptr;
         CommunicateCfg *m_communicateCfg=nullptr;
+        TcpClient *m_tcpClient=nullptr;
     //函数
     void init();
     void UIconnect();

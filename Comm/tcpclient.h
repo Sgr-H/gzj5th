@@ -14,7 +14,7 @@ class TcpClient : public QWidget
 public:
     explicit TcpClient(QWidget *parent = nullptr);
     ~TcpClient();
-
+signals:
 public slots:
     void connected();
     void disconnected();
@@ -24,6 +24,7 @@ public slots:
     void toDisConnect();
     //心跳包
     void heartBS();
+    void sendMessages(const char* _data);
 private:
     Ui::TcpClient *ui;
     //函数

@@ -1,18 +1,18 @@
 #include "bridgemanager.h"
 
+#include "gzjsqlite.h"
 BridgeManager::BridgeManager()
 {
     init();
     UIconnect();
+    Singleton<GzjSqlite>::getInstance();
 }
 BridgeManager::~BridgeManager()
 {
-
 }
 
 void BridgeManager::test()
 {
-    qDebug()<<"BM test!";
 }
 
 //返回独立电实例
@@ -76,6 +76,11 @@ CommunicateCfg *BridgeManager::CommunicateCfgINS() const
     return m_communicateCfg;
 }
 
+TcpClient *BridgeManager::TcpClientINS() const
+{
+    return m_tcpClient;
+}
+
 //初始化
 void BridgeManager::init()
 {
@@ -92,6 +97,7 @@ void BridgeManager::init()
     m_date3Shaft=new date3Shaft();
     m_equipOpera=new EquipOpera();
     m_communicateCfg=new CommunicateCfg();
+    m_tcpClient=new TcpClient();
 }
 //关于UI的信号槽
 void BridgeManager::UIconnect()

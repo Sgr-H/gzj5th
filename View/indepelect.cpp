@@ -1,6 +1,7 @@
 #include "indepelect.h"
 #include "ui_indepelect.h"
 #include "bridgemanager.h"
+
 IndepElect::IndepElect(QWidget *parent) :
     FramelessWidget(parent),
     ui(new Ui::IndepElect)
