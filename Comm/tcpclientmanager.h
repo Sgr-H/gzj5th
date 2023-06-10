@@ -15,8 +15,8 @@ signals:
     void finishedCountSignal();
     void startedCountSignal();
     void showFinishedCountUiSignal();
-    void msgParse(const QString _rev_msg);
-    void modelSend(const char *_data);
+    void msgParse(const QString &_rev_msg);
+    void modelSend(const QByteArray &_data);
 public slots:
     void quitCountThreadSlot();
 private:

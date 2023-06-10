@@ -2,6 +2,7 @@
 #define GZJSQLITE_H
 
 #include <QObject>
+#include "APISgrH/APISgrH.h"
 
 class GzjSqlite : public QObject
 {
@@ -11,9 +12,11 @@ class GzjSqlite : public QObject
 
     QSqlDatabase sqlDatabase;
     QSqlQuery sql_query;
-    void insertDeviceTI(const QVariantList &_TN, const QVariantList &_PN,const QVariantList &_Name,const QVariantList &_EnName);
-    void selectDeviceTI();
-    void sqlTest();
+    void insertDeviceTI(const struct_deviceTI &_struct_DTI);
+    void insertTargetTI(const struct_targetTI &_struct_TTI);
+    void insertDeviceMI(const struct_deviceMI &_struct_DMI);
+    void insertCircCT(const struct_circCT &_struct_CCT);
+    void sqlTest(const QString &sql_str);
 signals:
 
 public slots:

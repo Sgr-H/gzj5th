@@ -203,11 +203,12 @@ void TcpClient::heartBS()
     ui->textBrowser->append("客户端："+QString(buf.GetString()));
 }
 
-void TcpClient::sendMessages(const char *_data)
+void TcpClient::sendMessages(const QByteArray &_data)
 {
     if(nullptr==tcpSocket)
             return;
         if(tcpSocket->state()==tcpSocket->ConnectedState){
+            qDebug()<<_data.data();
             tcpSocket->write(_data);
             ui->textBrowser->append("客户端："+QString(_data));
         }

@@ -24,7 +24,7 @@ public slots:
     void toDisConnect();
     //心跳包
     void heartBS();
-    void sendMessages(const char* _data);
+    void sendMessages(const QByteArray &_data);
 private:
     Ui::TcpClient *ui;
     //函数
