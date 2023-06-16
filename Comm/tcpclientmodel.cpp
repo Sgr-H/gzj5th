@@ -27,7 +27,7 @@ void TcpClientModel::msgParse(const QString &_rev_msg)
             if(dom[gzj_FunctionC].GetString()==tr(FN_gzjDeviceTI)&&dom[gzj_OperationC].GetString()==tr(OP_gzjNone)&&dom[gzj_AnswerF].GetInt()==AF_gjzAnswerData){
                 A2_00_2(dom);
             }
-            //A2 03 0 网关主动请求（操作码03）
+            //A2 03 0 上位机读请求（操作码03）
             if(dom[gzj_FunctionC].GetString()==tr(FN_gzjDeviceTI)&&dom[gzj_OperationC].GetString()==tr(OP_gzjRead)&&dom[gzj_AnswerF].GetInt()==AF_gzjNoAnswer){
                 A2_03_0(dom);
             }
@@ -39,11 +39,11 @@ void TcpClientModel::msgParse(const QString &_rev_msg)
             if(dom[gzj_FunctionC].GetString()==tr(FN_gzjTargetTI)&&dom[gzj_OperationC].GetString()==tr(OP_gzjNone)&&dom[gzj_AnswerF].GetInt()==AF_gjzAnswerData){
                 A3_00_2(dom);
             }
-            //A3 03 0 网关主动请求（操作码03）
+            //A3 03 0 上位机读请求（操作码03）
             if(dom[gzj_FunctionC].GetString()==tr(FN_gzjTargetTI)&&dom[gzj_OperationC].GetString()==tr(OP_gzjRead)&&dom[gzj_AnswerF].GetInt()==AF_gzjNoAnswer){
                 A3_03_0(dom);
             }
-            //A3 06 0 网关主动请求（操作码06）
+            //A3 06 0 上位机写请求（操作码06）
             if(dom[gzj_FunctionC].GetString()==tr(FN_gzjTargetTI)&&dom[gzj_OperationC].GetString()==tr(OP_gzjWrite)&&dom[gzj_AnswerF].GetInt()==AF_gzjNoAnswer){
                 A3_06_0(dom);
             }
@@ -51,11 +51,11 @@ void TcpClientModel::msgParse(const QString &_rev_msg)
             if(dom[gzj_FunctionC].GetString()==tr(FN_gzjDeviceMI)&&dom[gzj_OperationC].GetString()==tr(OP_gzjNone)&&dom[gzj_AnswerF].GetInt()==AF_gjzAnswerData){
                 A4_00_2(dom);
             }
-            //A4 03 0 网关主动请求（操作码03）
+            //A4 03 0 上位机读请求（操作码03）
             if(dom[gzj_FunctionC].GetString()==tr(FN_gzjDeviceMI)&&dom[gzj_OperationC].GetString()==tr(OP_gzjRead)&&dom[gzj_AnswerF].GetInt()==AF_gzjNoAnswer){
                 A4_03_0(dom);
             }
-            //A4 06 0 网关主动请求（操作码06）
+            //A4 06 0 上位机写请求（操作码06）
             if(dom[gzj_FunctionC].GetString()==tr(FN_gzjDeviceMI)&&dom[gzj_OperationC].GetString()==tr(OP_gzjWrite)&&dom[gzj_AnswerF].GetInt()==AF_gzjNoAnswer){
                 A4_06_0(dom);
             }
@@ -63,11 +63,11 @@ void TcpClientModel::msgParse(const QString &_rev_msg)
             if(dom[gzj_FunctionC].GetString()==tr(FN_gzjCircCT)&&dom[gzj_OperationC].GetString()==tr(OP_gzjNone)&&dom[gzj_AnswerF].GetInt()==AF_gjzAnswerData){
                 A5_00_2(dom);
             }
-            //A5 03 0 网关主动请求（操作码03）
+            //A5 03 0 上位机读请求（操作码03）
             if(dom[gzj_FunctionC].GetString()==tr(FN_gzjCircCT)&&dom[gzj_OperationC].GetString()==tr(OP_gzjRead)&&dom[gzj_AnswerF].GetInt()==AF_gzjNoAnswer){
                 A5_03_0(dom);
             }
-            //A5 06 0 网关主动请求（操作码06）
+            //A5 06 0 上位机写请求（操作码06）
             if(dom[gzj_FunctionC].GetString()==tr(FN_gzjCircCT)&&dom[gzj_OperationC].GetString()==tr(OP_gzjWrite)&&dom[gzj_AnswerF].GetInt()==AF_gzjNoAnswer){
                 A5_06_0(dom);
             }
@@ -87,13 +87,21 @@ void TcpClientModel::msgParse(const QString &_rev_msg)
             if(dom[gzj_FunctionC].GetString()==tr(FN_gzjPowerCS)&&dom[gzj_OperationC].GetString()==tr(OP_gzjRead)&&dom[gzj_AnswerF].GetInt()==AF_gzjNoAnswer){
                 B4_03_0(dom);
             }
-            //C1 06 0 时间同步（操作码03）
+            //C1 03 0 时间同步（操作码03）
             if(dom[gzj_FunctionC].GetString()==tr(FN_gzjTimeSync)&&dom[gzj_OperationC].GetString()==tr(OP_gzjRead)&&dom[gzj_AnswerF].GetInt()==AF_gzjNoAnswer){
                 C1_03_0(dom);
             }
             //C1 06 0 时间同步（操作码06）
             if(dom[gzj_FunctionC].GetString()==tr(FN_gzjTimeSync)&&dom[gzj_OperationC].GetString()==tr(OP_gzjWrite)&&dom[gzj_AnswerF].GetInt()==AF_gzjNoAnswer){
                 C1_06_0(dom);
+            }
+            //C1 03 0 读串口配置（操作码03）
+            if(dom[gzj_FunctionC].GetString()==tr(FN_gzjSeriS)&&dom[gzj_OperationC].GetString()==tr(OP_gzjRead)&&dom[gzj_AnswerF].GetInt()==AF_gzjNoAnswer){
+                C2_03_0(_rev_msg);
+            }
+            //C1 06 0 写串口配置（操作码06）
+            if(dom[gzj_FunctionC].GetString()==tr(FN_gzjSeriS)&&dom[gzj_OperationC].GetString()==tr(OP_gzjWrite)&&dom[gzj_AnswerF].GetInt()==AF_gzjNoAnswer){
+                C2_06_0(dom);
             }
 
             //sqlTEST测试用命令
@@ -228,6 +236,7 @@ void TcpClientModel::A2_03_0(Document &dom)
     send_dom.Accept(writer);
     QByteArray ba_data(buf.GetString());
     emit Singleton<TcpClientManager>::getInstance().modelSend(ba_data);
+
 }
 
 //A3 00 2 网关主动请求（操作码00）
@@ -818,5 +827,59 @@ void TcpClientModel::C1_06_0(Document &dom)
     QByteArray ba_data(buf.GetString());
     emit Singleton<TcpClientManager>::getInstance().modelSend(ba_data);
 
+}
+//C2 03 0 读串口配置（操作码03）
+void TcpClientModel::C2_03_0(const QString &dom)
+{
+    emit Singleton<TcpClientManager>::getInstance().readSeriSetting(dom);
+}
+//C2 06 0 写串口配置（操作码06）
+void TcpClientModel::C2_06_0(Document &dom)
+{
+    Document send_dom;
+    Document::AllocatorType& allocator=send_dom.GetAllocator();
+    str_value_rj.SetString(dom[gzj_RequestC].GetString(),allocator);
+    send_dom.SetObject();
+    send_dom.AddMember(gzj_RequestC, str_value_rj, allocator);
+    send_dom.AddMember(gzj_ProtocolV, Ver_gzjVersion, allocator);
+    send_dom.AddMember(gzj_FunctionC, FN_gzjSeriS, allocator);
+    send_dom.AddMember(gzj_OperationC, OP_gzjWrite, allocator);
+    send_dom.AddMember(gzj_FunctionC, AF_gzjAnswerNoData, allocator);
+    send_dom.AddMember(gzj_Result, Result_gzjSuccess, allocator);
+    send_dom.AddMember(gzj_ErrorC, EC_gzjNoEC, allocator);
+    if (dom.HasMember("Data"))
+    {
+        Value Data;
+        Data = dom["Data"];
+        //先取Array
+        if (Data.IsArray() && !Data.Empty())
+        {
+            rapidjson::Value tempData;
+            QVariantList VL_SP,VL_Baud,VL_None,VL_DB,VL_SB;
+            for (rapidjson::SizeType i = 0; i < Data.Size(); i++)
+            {
+                tempData = Data[i];
+                if (tempData.IsObject())
+                {
+
+                    if (tempData.HasMember("SP") && tempData.HasMember("Baud")&& tempData.HasMember("CB")&&
+                            tempData.HasMember("DB")&& tempData.HasMember("SB"))
+                    {
+                        VL_SP<<tr(tempData["SP"].GetString());
+                        VL_Baud<<tempData["Baud"].GetInt();
+                        VL_None<<tr(tempData["CB"].GetString());
+                        VL_DB<<tempData["DB"].GetInt();
+                        VL_SB<<tempData["SB"].GetDouble();
+                    }
+                }
+            }
+            emit Singleton<TcpClientManager>::getInstance().writeSeriSetting(VL_SP,VL_Baud,VL_None,VL_DB,VL_SB);
+        }
+    }
+    StringBuffer buf;
+    Writer<rapidjson::StringBuffer> writer(buf);
+    send_dom.Accept(writer);
+    QByteArray ba_data(buf.GetString());
+    emit Singleton<TcpClientManager>::getInstance().modelSend(ba_data);
 }
 

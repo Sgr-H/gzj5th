@@ -17,6 +17,7 @@ void GzjSqlite::insertDeviceTI(const struct_deviceTI &_struct_DTI)
     if(tableNameList.contains("deviceTI")){
         //清表
         sql_query.exec("delete from deviceTI");
+        sql_query.exec("update sqlite_sequence SET seq = 0 where name ='deviceTI'");
         //插入
         sqlDatabase.transaction();
         QString commit_Sql=QString("insert into %1 values(?,?,?,?)").arg("deviceTI");
@@ -48,6 +49,7 @@ void GzjSqlite::insertTargetTI(const struct_targetTI &_struct_TTI)
     if(tableNameList.contains("targetTI")){
         //清表
         sql_query.exec("delete from targetTI");
+        sql_query.exec("update sqlite_sequence SET seq = 0 where name ='targetTI'");
         //插入
         sqlDatabase.transaction();
         QString commit_Sql=QString("insert into %1 values(?,?,?,?,?)").arg("targetTI");
@@ -79,6 +81,7 @@ void GzjSqlite::insertDeviceMI(const struct_deviceMI &_struct_DMI)
     if(tableNameList.contains("deviceMI")){
         //清表
         sql_query.exec("delete from deviceMI");
+        sql_query.exec("update sqlite_sequence SET seq = 0 where name ='deviceMI'");
         //插入
         sqlDatabase.transaction();
         QString commit_Sql=QString("insert into %1 values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)").arg("deviceMI");
@@ -120,6 +123,7 @@ void GzjSqlite::insertCircCT(const struct_circCT &_struct_CCT)
     if(tableNameList.contains("circCT")){
         //清表
         sql_query.exec("delete from circCT");
+        sql_query.exec("update sqlite_sequence SET seq = 0 where name ='circCT'");
         //插入
         sqlDatabase.transaction();
         QString commit_Sql=QString("insert into %1 values(?,?,?,?,?,?,?)").arg("circCT");

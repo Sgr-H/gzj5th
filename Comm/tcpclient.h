@@ -15,6 +15,9 @@ public:
     explicit TcpClient(QWidget *parent = nullptr);
     ~TcpClient();
 signals:
+    void readSeriSetting(QString _strDom);
+    void writeSeriSetting(const QVariantList &VL_SP,const QVariantList &VL_Baud,
+                          const QVariantList &VL_CB,const QVariantList &VL_DB,const QVariantList &VL_SB);
 public slots:
     void connected();
     void disconnected();

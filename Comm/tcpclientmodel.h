@@ -38,6 +38,9 @@ private:
 
     void C1_03_0(Document &dom);//C1时间同步（操作码03）
     void C1_06_0(Document &dom);//C1时间同步（操作码06）
+
+    void C2_03_0(const QString &dom);//读串口配置（操作码03）
+    void C2_06_0(Document &dom);//写串口配置（操作码06）
     //变量
 };
 

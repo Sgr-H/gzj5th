@@ -27,6 +27,7 @@
 #define FN_gzjBatteryVS "B3"
 #define FN_gzjPowerCS "B4"
 #define FN_gzjTimeSync "C1"
+#define FN_gzjSeriS "C2"
 #define OP_gzjNone "00"
 #define OP_gzjRead "03"
 #define OP_gzjWrite "06"

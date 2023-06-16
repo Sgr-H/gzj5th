@@ -133,6 +133,10 @@ void IndepElect::uiConnect()
     connect(ui->pushButton_8,&QPushButton::clicked,this,[=]{
         Singleton<BridgeManager>::getInstance().date3ShaftINS()->show();
     });
+    //测试按钮
+    connect(ui->pushButton_9,&QPushButton::clicked,this,[=]{
+        Singleton<BridgeManager>::getInstance().SerialSettingINS()->show();
+    });
 }
 
 //清空布局

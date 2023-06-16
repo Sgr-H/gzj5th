@@ -12,6 +12,10 @@ class TcpClientManager : public QObject
 
 signals:
 
+    void readSeriSetting(QString _strDom);
+    void writeSeriSetting(const QVariantList &VL_SP,const QVariantList &VL_Baud,
+                          const QVariantList &VL_CB,const QVariantList &VL_DB,const QVariantList &VL_SB);
+
     void finishedCountSignal();
     void startedCountSignal();
     void showFinishedCountUiSignal();

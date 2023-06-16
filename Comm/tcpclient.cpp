@@ -145,6 +145,9 @@ void TcpClient::uiConnect()
     //业务层数据发送
     connect(&Singleton<TcpClientManager>::getInstance(),&TcpClientManager::modelSend,this,&TcpClient::sendMessages);
 
+    //发送处理操作信号到串口
+    connect(&Singleton<TcpClientManager>::getInstance(),&TcpClientManager::readSeriSetting,this,&TcpClient::readSeriSetting);
+    connect(&Singleton<TcpClientManager>::getInstance(),&TcpClientManager::writeSeriSetting,this,&TcpClient::writeSeriSetting);
     //按钮信号槽
     connect(ui->pushButton,&QPushButton::clicked,this,&TcpClient::toConnect);
     connect(ui->pushButton_2,&QPushButton::clicked,this,&TcpClient::toDisConnect);

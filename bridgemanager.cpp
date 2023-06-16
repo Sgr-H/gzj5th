@@ -81,6 +81,11 @@ TcpClient *BridgeManager::TcpClientINS() const
     return m_tcpClient;
 }
 
+SerialSetting *BridgeManager::SerialSettingINS() const
+{
+    return m_serialSetting;
+}
+
 //初始化
 void BridgeManager::init()
 {
@@ -98,9 +103,13 @@ void BridgeManager::init()
     m_equipOpera=new EquipOpera();
     m_communicateCfg=new CommunicateCfg();
     m_tcpClient=new TcpClient();
+    m_serialSetting=new SerialSetting();
 }
 //关于UI的信号槽
 void BridgeManager::UIconnect()
 {
     connect(this,&BridgeManager::SignPriEquip,m_indepElect,&IndepElect::SlotPriEquip);
+    connect(m_tcpClient,&TcpClient::readSeriSetting,m_serialSetting,&SerialSetting::readSeriSetting);
+    connect(m_tcpClient,&TcpClient::writeSeriSetting,m_serialSetting,&SerialSetting::writeSeriSetting);
+    connect(m_serialSetting,&SerialSetting::signToTcpSend,m_tcpClient,&TcpClient::sendMessages);
 }
