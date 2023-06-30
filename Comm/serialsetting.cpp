@@ -11,11 +11,21 @@ SerialSetting::SerialSetting(QWidget *parent) :
     ui->setupUi(this);
     initSeri();
     uiConnect();
+
+    Worker *worker = new Worker;
+    worker->moveToThread(&workerThread);
+    connect(&workerThread, &QThread::finished, worker, &QObject::deleteLater);
+    connect(this, &SerialSetting::operate, worker, &Worker::doWork);
+    workerThread.start();
+    emit operate("hjj");
+
 }
 
 SerialSetting::~SerialSetting()
 {
     delete ui;
+    workerThread.quit();
+    workerThread.wait();
 }
 
 SerialSetting::SeriSettings *SerialSetting::settings() const
@@ -562,6 +572,7 @@ void SerialSetting::uiConnect()
 
     connect(VectorSerialPort.at(1),SIGNAL(readyRead()),this,SLOT(bufferData1()));
     connect(readTimer1,&QTimer::timeout,this,&SerialSetting::readData1);
+
     //关闭按钮
     connect(ui->closePushButton,&QPushButton::clicked,this,[=]{
         changeComboBox();
@@ -626,3 +637,4 @@ void SerialSetting::uiConnect()
     });
 
 }
+

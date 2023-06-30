@@ -44,6 +44,7 @@ void TcpClient::receiveMessages()
 {
     QByteArray messageB=tcpSocket->readAll();
     ui->textBrowser->append("服务端："+QString(messageB));
+    qDebug()<<messageB;
     emit Singleton<TcpClientManager>::getInstance().msgParse(QString(messageB));
 }
 

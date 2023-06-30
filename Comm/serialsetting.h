@@ -9,6 +9,20 @@ namespace Ui {
 class SerialSetting;
 }
 
+class Worker : public QObject
+  {
+      Q_OBJECT
+
+  public slots:
+      void doWork(const QString &parameter) {
+          QString result;
+          result=parameter;
+          emit resultReady(result);
+      }
+  signals:
+      void resultReady(const QString &result);
+  };
+
 class SerialSetting : public QWidget
 {
     Q_OBJECT
@@ -25,8 +39,11 @@ public:
     SeriSettings *settings() const;
     void changeComboBox();
 signals:
+    void operate(const QString &);
+
     void signToTcpSend(const QByteArray &_data);
 public slots:
+
     void bufferData();
     void bufferData1();
     void readData();
@@ -35,6 +52,7 @@ public slots:
     void writeSeriSetting(const QVariantList &VL_SP,const QVariantList &VL_Baud,
                           const QVariantList &VL_CB,const QVariantList &VL_DB,const QVariantList &VL_SB);
 private:
+    QThread workerThread;
     //变量
     QSerialPort * serialPort1=new QSerialPort(this);
     QSerialPort * serialPort2=new QSerialPort(this);
@@ -61,5 +79,6 @@ private:
     void initSeri();
     void uiConnect();
 };
+
 
 #endif // SERIALSETTING_H
