@@ -2,6 +2,7 @@
 #define TCPCLIENT_H
 
 #include <QWidget>
+#include "Comm/mynetport.h"
 using namespace rapidjson;
 namespace Ui {
 class TcpClient;
@@ -37,6 +38,8 @@ private:
     void uiConnect();
     void initJson();
     //变量
+    MyNetPort *myTcpSocket=nullptr;
+
     QTimer *heartBeat=nullptr;
     QTcpSocket *tcpSocket=nullptr;
     QList<QHostAddress>IPlist;

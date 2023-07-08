@@ -1,6 +1,5 @@
 #include "tcpclientmodel.h"
 #include "tcpclientmanager.h"
-#include "log.h"
 #include "APISgrH/APISgrH.h"
 #include "gzjsqlite.h"
 

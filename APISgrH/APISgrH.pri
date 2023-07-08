@@ -1,4 +1,4 @@
-QT       += network sql serialport widgets charts
+QT       += network sql serialport widgets charts concurrent
 
 HEADERS += \
     $$PWD/APISgrH.h \
@@ -8,3 +8,6 @@ HEADERS += \
 CONFIG          += precompile_header    #可以在项目中使用预编译头文件的支持。
 #预编译
 PRECOMPILED_HEADER=$$PWD/stable.h
+
+SOURCES += \
+    $$PWD/APISgrH.cpp

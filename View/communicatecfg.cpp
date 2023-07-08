@@ -15,3 +15,4 @@ CommunicateCfg::~CommunicateCfg()
 {
     delete ui;
 }
+

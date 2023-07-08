@@ -19,6 +19,7 @@ Log::~Log()
 
 }
 
+
 //Log::Log(QObject *parent) : QObject(parent)
 //{
 //    // 一定要配置文件，不然运行起来会直接当掉

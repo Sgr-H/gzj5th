@@ -1,6 +1,6 @@
 #include "logprintwidget.h"
 #include "ui_logprintwidget.h"
-
+#include "qtconcurrentrun.h"
 logPrintWidget::logPrintWidget(QWidget *parent) :
     FramelessWidget(parent),
     ui(new Ui::logPrintWidget)
@@ -8,26 +8,14 @@ logPrintWidget::logPrintWidget(QWidget *parent) :
     ui->setupUi(this);
     this->setGeometry(0,0,1024,600);
 
-    QString data;
-    QFile file(QCoreApplication::applicationDirPath() + "/" +"log/log.txt");
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        qDebug()<<"文件未打开!";
-    }
-    while(!file.atEnd())
-    {
-        QByteArray array = file.readLine();
-        QString str(array);
-       // qDebug()<< str;
-        data.append(str);
-    }
-    ui->textBrowser->setText(data);
+    connect(this,&logPrintWidget::SignUpdateTB,this,&logPrintWidget::SlotsUpdateTB);
+    connect(ui->flushBtn, &QPushButton::clicked, this, &logPrintWidget::flushFile);
     //返回
     connect(ui->returnBtn,&QPushButton::clicked,this,&logPrintWidget::close);
-
     QScroller *scl = QScroller::scroller(ui->textBrowser);
-        scl->grabGesture(ui->textBrowser,QScroller::LeftMouseButtonGesture);
-//        ui->textBrowser->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    scl->grabGesture(ui->textBrowser,QScroller::LeftMouseButtonGesture);
+    emit ui->flushBtn->clicked();
+    //        ui->textBrowser->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     //    QScrollerProperties properties = scl->scrollerProperties();
     //    properties.setScrollMetric(QScrollerProperties::DragVelocitySmoothingFactor,0.1);//滑动
     //    properties.setScrollMetric(QScrollerProperties::FrameRate,QScrollerProperties::Fps60);
@@ -40,3 +28,32 @@ logPrintWidget::~logPrintWidget()
 {
     delete ui;
 }
+
+void logPrintWidget::test()
+{
+    QString data;
+    QFile file(QCoreApplication::applicationDirPath() + "/" +"log/log.txt");
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug()<<"文件未打开!";
+    }
+    while(!file.atEnd())
+    {
+        QByteArray array = file.readLine();
+        QString str(array);
+        data.prepend(str);
+    }
+    file.close();
+    emit logPrintWidget::SignUpdateTB(data);
+}
+
+void logPrintWidget::flushFile()
+{
+    QtConcurrent::run(this,&logPrintWidget::test);
+}
+
+void logPrintWidget::SlotsUpdateTB(const QString &_data)
+{
+    ui->textBrowser->setText(_data);
+}
+

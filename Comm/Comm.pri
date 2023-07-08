@@ -3,6 +3,8 @@ FORMS += \
     $$PWD/tcpclient.ui
 
 HEADERS += \
+    $$PWD/mynetport.h \
+    $$PWD/myserialport.h \
     $$PWD/serialsetting.h \
     $$PWD/serialsettingmanager.h \
     $$PWD/serialsettingmodel.h \
@@ -11,6 +13,8 @@ HEADERS += \
     $$PWD/tcpclientmodel.h
 
 SOURCES += \
+    $$PWD/mynetport.cpp \
+    $$PWD/myserialport.cpp \
     $$PWD/serialsetting.cpp \
     $$PWD/serialsettingmanager.cpp \
     $$PWD/serialsettingmodel.cpp \

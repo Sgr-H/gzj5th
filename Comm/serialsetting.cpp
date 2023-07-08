@@ -9,15 +9,25 @@ SerialSetting::SerialSetting(QWidget *parent) :
     ui(new Ui::SerialSetting)
 {
     ui->setupUi(this);
-    initSeri();
-    uiConnect();
+//    initSeri();
+//    uiConnect();
 
-    Worker *worker = new Worker;
-    worker->moveToThread(&workerThread);
-    connect(&workerThread, &QThread::finished, worker, &QObject::deleteLater);
-    connect(this, &SerialSetting::operate, worker, &Worker::doWork);
-    workerThread.start();
-    emit operate("hjj");
+    msp1 = new MySerialPort();
+    emit msp1->SignStartThread();
+    emit msp1->signSetSetting(QString("/dev/ttymxc2"),QSerialPort::NoParity,QSerialPort::Baud9600,QSerialPort::Data8,QSerialPort::OneStop,QSerialPort::NoFlowControl);
+//    msp2 = new MySerialPort();
+//    emit msp2->SignStartThread();
+//    emit msp2->signSetSetting(QString("/dev/ttymxc0"),QSerialPort::NoParity,QSerialPort::Baud9600,QSerialPort::Data8,QSerialPort::OneStop,QSerialPort::NoFlowControl);
+
+    connect(ui->pushButton_3,&QPushButton::clicked,msp1,&MySerialPort::write_data);
+    connect(msp1,&MySerialPort::receive_data,&Singleton<SerialSettingManager>::getInstance(),&SerialSettingManager::msgParse);
+
+//    Worker *worker = new Worker;
+//    worker->moveToThread(&workerThread);
+//    connect(&workerThread, &QThread::finished, worker, &QObject::deleteLater);
+//    connect(this, &SerialSetting::operate, worker, &Worker::doWork);
+//    workerThread.start();
+//    emit operate("hjj");
 
 }
 
@@ -131,6 +141,8 @@ void SerialSetting::bufferData()
 
 void SerialSetting::bufferData1()
 {
+    qDebug()<<"seri1 tId:" <<QThread::currentThreadId();
+
     //定时50ms
     readTimer1->start(quint32(38.5/m_settings[1].baud*1000+1));
     buffArray1.append(VectorSerialPort.at(1)->readAll());
@@ -572,6 +584,8 @@ void SerialSetting::uiConnect()
 
     connect(VectorSerialPort.at(1),SIGNAL(readyRead()),this,SLOT(bufferData1()));
     connect(readTimer1,&QTimer::timeout,this,&SerialSetting::readData1);
+
+    connect(&Singleton<SerialSettingManager>::getInstance(),&SerialSettingManager::SManagerSignToTcpSend,this,&SerialSetting::signToTcpSend);
 
     //关闭按钮
     connect(ui->closePushButton,&QPushButton::clicked,this,[=]{

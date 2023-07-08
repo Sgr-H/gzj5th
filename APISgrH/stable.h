@@ -24,7 +24,7 @@
 #include "rapidjson/reader.h"
 #include "rapidjson/prettywriter.h"
 #include "rapidjson/stringbuffer.h"
-
+#include "log.h"
 #define  BOOL_VERIFY(emStatus_bool,switch_bool) \
 if (emStatus_bool == true){return true;}\
 else{return false;}

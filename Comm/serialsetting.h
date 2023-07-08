@@ -3,25 +3,26 @@
 #include <QSerialPort>      //串口类
 #include <QSerialPortInfo>  //串口信息类
 #include <QWidget>
+#include "Comm/myserialport.h"
 
 using namespace rapidjson;
 namespace Ui {
 class SerialSetting;
 }
 
-class Worker : public QObject
-  {
-      Q_OBJECT
+//class Worker : public QObject
+//  {
+//      Q_OBJECT
 
-  public slots:
-      void doWork(const QString &parameter) {
-          QString result;
-          result=parameter;
-          emit resultReady(result);
-      }
-  signals:
-      void resultReady(const QString &result);
-  };
+//  public slots:
+//      void doWork(const QString &parameter) {
+//          QString result;
+//          result=parameter;
+//          emit resultReady(result);
+//      }
+//  signals:
+//      void resultReady(const QString &result);
+//  };
 
 class SerialSetting : public QWidget
 {
@@ -52,12 +53,17 @@ public slots:
     void writeSeriSetting(const QVariantList &VL_SP,const QVariantList &VL_Baud,
                           const QVariantList &VL_CB,const QVariantList &VL_DB,const QVariantList &VL_SB);
 private:
+#if 1
+    MySerialPort *msp1;
+    MySerialPort *msp2;
     QThread workerThread;
+    //以上测试用代码
+#endif
     //变量
-    QSerialPort * serialPort1=new QSerialPort(this);
-    QSerialPort * serialPort2=new QSerialPort(this);
-    QSerialPort * serialPort3=new QSerialPort(this);
-    QSerialPort * serialPort4=new QSerialPort(this);
+    QSerialPort * serialPort1=new QSerialPort();
+    QSerialPort * serialPort2=new QSerialPort();
+    QSerialPort * serialPort3=new QSerialPort();
+    QSerialPort * serialPort4=new QSerialPort();
     QVector<QSerialPort*> VectorSerialPort;
     QVector<QPushButton*> VectorPushBotton;
     QVector<QString> VectorPortName;

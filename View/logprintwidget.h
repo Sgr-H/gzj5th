@@ -14,8 +14,14 @@ class logPrintWidget : public FramelessWidget
 public:
     explicit logPrintWidget(QWidget *parent = nullptr);
     ~logPrintWidget();
-
+    void test();
+signals:
+    void SignUpdateTB(const QString&_data);
+public slots:
+    void flushFile();
+    void SlotsUpdateTB(const QString&_data);
 private:
+
     Ui::logPrintWidget *ui;
 };
 

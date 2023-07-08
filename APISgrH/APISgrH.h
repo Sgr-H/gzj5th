@@ -41,24 +41,43 @@
 
 #define domIsGZJprotocol dom.HasMember(gzj_RequestC) && dom[gzj_RequestC].IsString() && dom.HasMember(gzj_ProtocolV) && dom[gzj_ProtocolV].GetString()==tr(Ver_gzjVersion) && dom.HasMember(gzj_FunctionC) && dom[gzj_FunctionC].IsString() && dom.HasMember(gzj_OperationC) && dom[gzj_OperationC].IsString() && dom.HasMember(gzj_AnswerF) && dom[gzj_AnswerF].IsInt()
 
+
+class SeriSettings {
+public:
+    SeriSettings();
+    SeriSettings(const QString &str_portN ,const int &i_Parity ,const int &i_baud ,const int &i_dateB ,const int &i_stopB ,const int &i_flowC);
+    void setSeriSettings(const QString &str_portN ,const int &i_Parity ,const int &i_baud ,const int &i_dateB ,const int &i_stopB ,const int &i_flowC);
+    QString PortName;
+    int parity;
+    int baud;
+    int dataBits;
+    int stopBits;
+    int flowControl;
+};
 //结构体
-struct struct_deviceTI
+//设备类型信息表
+class struct_deviceTI
 {
+public:
     QVariantList VL_TN;
     QVariantList VL_PN;
     QVariantList VL_Name;
     QVariantList VL_EnName;
 };
-struct struct_targetTI
+//指标类型信息表
+class struct_targetTI
 {
+public:
     QVariantList VL_TN;
     QVariantList VL_Type;
     QVariantList VL_Name;
     QVariantList VL_EnName;
     QVariantList VL_Unit;
 };
-struct struct_deviceMI
+//网关所接设备信号信息表
+class struct_deviceMI
 {
+public:
     QVariantList VL_TN;
     QVariantList VL_IT;
     QVariantList VL_PN;
@@ -74,15 +93,108 @@ struct struct_deviceMI
     QVariantList VL_UL;
     QVariantList VL_LL;
 };
-struct struct_circCT
+//循环采集配置
+class struct_circCT
 {
+public:
+   QVariantList VL_TN;
+   QVariantList VL_Addr;
+   QVariantList VL_VA;
+   QVariantList VL_SP;
+   QVariantList VL_CMD;
+   QVariantList VL_CF;
+   QVariantList VL_UF;
+};
+
+//采集指令类
+class struct_collectI
+{
+public:
+    QVariantList VL_VA;
     QVariantList VL_TN;
     QVariantList VL_Addr;
-    QVariantList VL_VA;
     QVariantList VL_SP;
     QVariantList VL_CMD;
     QVariantList VL_CF;
+    QVariantList VL_CFT;
+    QVariantList VL_CFlag;
+};
+//上传指令类
+class struct_uploadI
+{
+public:
+    QVariantList VL_VA;
+    QVariantList VL_ID;
+    QVariantList VL_Value;
+    QVariantList VL_CT;
     QVariantList VL_UF;
+    QVariantList VL_UFT;
+    QVariantList VL_Offli;
+    QVariantList VL_State;
+    QVariantList VL_CFlag;
+    QVariantList VL_ThdChance;
+
+};
+//预解析类
+class struct_preanalysis
+{
+public:
+    QVariantList VL_VA;
+    QVariantList VL_TN;
+    QVariantList VL_Preparse;
+    QVariantList VL_CMD;
+    QVariantList VL_CFlag;
+};
+//串口全局变量封装
+class APISeri
+{
+public:
+    static bool SFF_b_gzj;
+    static int SESA5_i_gzj;
+    static int SESA6_i_gzj;
+    static int SESA7_i_gzj;
+    static int CF_i_gzj;
+    static int UF_i_gzj;
+    static bool A6Exist_b_gzj;
+    static bool A7Exist_b_gzj;
+};
+//全局变量
+class APISgrH
+{
+public:
+    APISgrH();
+    //全局变量
+    //成员变量设置函数
+    static void set_deviceTI(const struct_deviceTI &SDTI){
+        QMutexLocker locker(&deviceTI_mutex);
+        deviceTI_SDTI_gzj=SDTI;
+    }
+    //成员变量获取函数
+    static struct_deviceTI get_deviceTI(){
+        QMutexLocker locker(&deviceTI_mutex);
+        return deviceTI_SDTI_gzj;
+    }
+
+    static int a_i_gzj;
+    static int TRT_i_gzj;
+    static int DRT_i_gzj;
+    static int DLUL_i_gzj;
+    static int RTCT_i_gzj;
+    static int seriThreadNameSN;
+
+    static struct_circCT circCT_SCCT_gzj;
+    static struct_deviceMI deviceMI_SDMI_gzj;
+    static struct_deviceTI deviceTI_SDTI_gzj;
+    static struct_targetTI targetTI_STTI_gzj;
+    //锁
+    static QMutex seriThreadNameSN_mutex;
+    static QMutex circCT_mutex;
+    static QMutex deviceMI_mutex;
+    static QMutex deviceTI_mutex;
+    static QMutex targetTI_mutex;
+
+
+
 };
 
 #endif // APISGRH_H

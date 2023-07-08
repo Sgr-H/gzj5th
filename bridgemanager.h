@@ -18,7 +18,6 @@
 #include "Comm/tcpclient.h"
 #include "Comm/serialsetting.h"
 
-#include "log.h"
 
 
 class BridgeManager : public QObject

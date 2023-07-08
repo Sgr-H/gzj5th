@@ -2,17 +2,19 @@
 #include "ui_tcpclient.h"
 #include "APISgrH/APISgrH.h"
 #include "tcpclientmanager.h"
-#include "log.h"
 
 TcpClient::TcpClient(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TcpClient)
 {
     ui->setupUi(this);
-    initTcpC();
-    initJson();
-    uiConnect();
-    toConnect();
+    myTcpSocket=new MyNetPort();
+    emit myTcpSocket->SignStartThread();
+//    initTcpC();
+//    initJson();
+//    uiConnect();
+//    toConnect();
+
 }
 
 TcpClient::~TcpClient()
@@ -44,7 +46,6 @@ void TcpClient::receiveMessages()
 {
     QByteArray messageB=tcpSocket->readAll();
     ui->textBrowser->append("服务端："+QString(messageB));
-    qDebug()<<messageB;
     emit Singleton<TcpClientManager>::getInstance().msgParse(QString(messageB));
 }
 
@@ -186,6 +187,7 @@ void TcpClient::toConnect()
     if(tcpSocket->state()!=tcpSocket->ConnectedState){
         tcpSocket->connectToHost(ui->lineEdit->text()/*ui->comboBox_2->currentText()*//*IPlist[ui->comboBox_2->currentIndex()]*/,
                                  quint16(ui->spinBox->value()));
+
     }
 }
 

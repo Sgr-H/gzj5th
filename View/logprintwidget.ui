@@ -14,13 +14,20 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="0">
+    <widget class="QPushButton" name="returnBtn">
+     <property name="text">
+      <string>return</string>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0">
     <widget class="QTextBrowser" name="textBrowser"/>
    </item>
    <item row="1" column="0">
-    <widget class="QPushButton" name="returnBtn">
+    <widget class="QPushButton" name="flushBtn">
      <property name="text">
-      <string>return</string>
+      <string>flush</string>
      </property>
     </widget>
    </item>

@@ -15,6 +15,7 @@ signals:
     void showFinishedCountUiSignal();
     void msgParse(const QByteArray &_collect_ba, const QByteArray &_byte_array);
     void modelSend(const QByteArray &_data);
+    void SManagerSignToTcpSend(const QByteArray &_data);
 public slots:
     void quitCountThreadSlot();
 private:

@@ -1,7 +1,6 @@
 #include "widgetui.h"
 #include <QApplication>
 #include <QTextCodec>
-#include "log.h"
 #include "APISgrH/singleton.h"
 //#include "Comm/tcpclient.h"
 
@@ -64,6 +63,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     //当前进程为主线程
     QThread::currentThread()->setObjectName("主线程");
+    qDebug()<<"maint tId: "<<QThread::currentThreadId();
     //明确编码格式
     QTextCodec *codec = QTextCodec::codecForName("utf-8");
     QTextCodec::setCodecForLocale(codec);

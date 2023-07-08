@@ -2,6 +2,8 @@
 #define SERIALSETTINGMODEL_H
 
 #include <QObject>
+using namespace rapidjson;
+
 struct circulateCI
 {
     int CCI_TN;
@@ -23,13 +25,16 @@ public:
     explicit SerialSettingModel(QObject *parent = nullptr);
 
 signals:
-
+    void SModelSignToTcpSend(const QByteArray &_data);
 public slots:
     void countSlot();
     void msgParse(const QByteArray &_collect_ba, const QByteArray &_byte_array);
     void initCCI();
 private:
     QList<circulateCI> * m_L_CCI;
+    //函数
+    bool A5isEmpty();
+    bool A4isEmpty();
 };
 
 #endif // SERIALSETTINGMODEL_H

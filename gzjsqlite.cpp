@@ -1,5 +1,4 @@
 #include "gzjsqlite.h"
-#include "log.h"
 GzjSqlite::GzjSqlite()
 {
     initSql();
@@ -13,7 +12,7 @@ GzjSqlite::~GzjSqlite()
 
 void GzjSqlite::insertDeviceTI(const struct_deviceTI &_struct_DTI)
 {
-    //表中是否有deviceTI，无则创建
+    //表中是否有deviceTI
     if(tableNameList.contains("deviceTI")){
         //清表
         sql_query.exec("delete from deviceTI");
@@ -34,6 +33,7 @@ void GzjSqlite::insertDeviceTI(const struct_deviceTI &_struct_DTI)
         }
         if(!sqlDatabase.commit()){
             qDebug() << "commitdeviceTI fail:" << sqlDatabase.lastError().text();
+            APISgrH::set_deviceTI(_struct_DTI);
         }
         else
         {
@@ -45,7 +45,7 @@ void GzjSqlite::insertDeviceTI(const struct_deviceTI &_struct_DTI)
 void GzjSqlite::insertTargetTI(const struct_targetTI &_struct_TTI)
 {
 
-    //表中是否有targetTI，无则创建
+    //表中是否有targetTI
     if(tableNameList.contains("targetTI")){
         //清表
         sql_query.exec("delete from targetTI");
@@ -77,7 +77,7 @@ void GzjSqlite::insertTargetTI(const struct_targetTI &_struct_TTI)
 
 void GzjSqlite::insertDeviceMI(const struct_deviceMI &_struct_DMI)
 {
-    //表中是否有targetTI，无则创建
+    //表中是否有targetTI
     if(tableNameList.contains("deviceMI")){
         //清表
         sql_query.exec("delete from deviceMI");
@@ -119,7 +119,7 @@ void GzjSqlite::insertDeviceMI(const struct_deviceMI &_struct_DMI)
 
 void GzjSqlite::insertCircCT(const struct_circCT &_struct_CCT)
 {
-    //表中是否有targetTI，无则创建
+    //表中是否有targetTI
     if(tableNameList.contains("circCT")){
         //清表
         sql_query.exec("delete from circCT");
