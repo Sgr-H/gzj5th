@@ -48,6 +48,7 @@ void TcpClientModel::msgParse(const QString &_rev_msg)
             }
             //A4 00 2 网关主动请求（操作码00）
             if(dom[gzj_FunctionC].GetString()==tr(FN_gzjDeviceMI)&&dom[gzj_OperationC].GetString()==tr(OP_gzjNone)&&dom[gzj_AnswerF].GetInt()==AF_gjzAnswerData){
+
                 A4_00_2(dom);
             }
             //A4 03 0 上位机读请求（操作码03）
@@ -235,7 +236,6 @@ void TcpClientModel::A2_03_0(Document &dom)
     send_dom.Accept(writer);
     QByteArray ba_data(buf.GetString());
     emit Singleton<TcpClientManager>::getInstance().modelSend(ba_data);
-
 }
 
 //A3 00 2 网关主动请求（操作码00）
@@ -374,6 +374,95 @@ void TcpClientModel::A3_06_0(Document &dom)
 //A4 00 2 网关主动请求（操作码00)
 void TcpClientModel::A4_00_2(Document &dom)
 {
+    Document copyDom;
+    //深拷贝
+    copyDom.CopyFrom(dom,copyDom.GetAllocator());
+    Value DataFile;
+    DataFile=copyDom["Data"];
+    if (dom.HasMember("Data"))
+    {
+        Value Data;
+        Data = dom["Data"];
+        struct_deviceMIF structDMIF;
+        struct_analyticP structAP;
+        //先取Array
+        if (Data.IsArray() && !Data.Empty())
+        {
+            rapidjson::Value tempData;
+            for (rapidjson::SizeType i = 0; i < Data.Size(); i++)
+            {
+                tempData = Data[i];
+                if (tempData.IsObject())
+                {
+
+                    if (tempData.HasMember("TN") && tempData.HasMember("IT")&& tempData.HasMember("PN")
+                            && tempData.HasMember("CMD")&& tempData.HasMember("PS")&& tempData.HasMember("AP"))
+                    {
+                        structDMIF.VL_TN<<tempData["TN"].GetInt();
+                        structDMIF.VL_IT<<tr(tempData["IT"].GetString());
+                        structDMIF.VL_PN<<tempData["PN"].GetInt();
+                        structDMIF.VL_CMD<<tr(tempData["CMD"].GetString());
+                        structDMIF.VL_PS<<tempData["PS"].GetInt();
+
+                        Value Data2;
+                        Data2 = tempData["AP"];
+                        if (Data2.IsArray() && !Data2.Empty())
+                        {
+                            Value tempData2;
+                            for (rapidjson::SizeType i = 0; i < Data2.Size(); i++)
+                            {
+                                tempData2 = Data2[i];
+                                if (tempData2.IsObject())
+                                {
+                                    if (tempData2.HasMember("TN") && tempData2.HasMember("IT")&& tempData2.HasMember("PN")
+                                            && tempData2.HasMember("CMD")&& tempData2.HasMember("PS")&& tempData2.HasMember("AP"))
+                                    {
+                                        structAP.VL_RB=tempData2["RB"].GetInt();
+                                        structAP.VL_PB=tempData2["PB"].GetInt();
+                                        structAP.VL_TM=tempData2["TM"].GetInt();
+                                        structAP.VL_SI=tr(tempData2["SI"].GetString());
+                                        structAP.VL_DL=tempData2["DL"].GetInt();
+                                        structAP.VL_DT=tr(tempData2["DT"].GetString());
+                                        structAP.VL_Formula=tr(tempData2["Formula"].GetString());
+                                        structAP.VL_UL=tempData2["UL"].GetDouble();
+                                        structAP.VL_LL=tempData2["LL"].GetDouble();
+                                    }
+                                }
+                            }
+                        }
+                        structDMIF.VL_AP<<structAP;
+
+                        qDebug()<<tr(tempData["IT"].GetString());
+                    }
+                }
+            }
+        }
+        APISgrH::set_deviceMIF(structDMIF);
+        //文件操作
+        Document jDDMI;
+        Document::AllocatorType& allocator=jDDMI.GetAllocator();
+        jDDMI.SetObject();
+        jDDMI.AddMember("Data",DataFile,allocator);
+        StringBuffer buf;
+        PrettyWriter<rapidjson::StringBuffer> writer(buf);
+        jDDMI.Accept(writer);
+        QString fileDir = QCoreApplication::applicationDirPath() + "/etc/JsonDeviceMI.txt";
+        QFile file(fileDir);
+        //对文件进行写操作
+        if(!file.open(QIODevice::WriteOnly)){
+            qDebug()<<"文件打开失败";
+        }
+        //向文件中写入字符串
+        file.write(buf.GetString());
+        //关闭文件
+        file.close();
+
+    }
+
+
+
+
+    /*数据库操作
     if (dom.HasMember("Data"))
     {
         Value Data;
@@ -417,10 +506,49 @@ void TcpClientModel::A4_00_2(Document &dom)
         }
         Singleton<GzjSqlite>::getInstance().insertDeviceMI(structDMI);
     }
+*/
 }
 //A4 03 0 上位机读网关（操作码03）
 void TcpClientModel::A4_03_0(Document &dom)
 {
+    //文件操作
+    Document send_dom;
+    Document::AllocatorType& allocator=send_dom.GetAllocator();
+    str_value_rj.SetString(dom[gzj_RequestC].GetString(),allocator);
+    send_dom.SetObject();
+    send_dom.AddMember(gzj_RequestC, str_value_rj, allocator);
+    send_dom.AddMember(gzj_ProtocolV, Ver_gzjVersion, allocator);
+    send_dom.AddMember(gzj_FunctionC, FN_gzjDeviceMI, allocator);
+    send_dom.AddMember(gzj_OperationC, OP_gzjRead, allocator);
+    send_dom.AddMember(gzj_FunctionC, AF_gjzAnswerData, allocator);
+
+    QString fileDir = QCoreApplication::applicationDirPath() + "/etc/JsonDeviceMI.txt";
+    QFile file(fileDir);
+    //对文件进行写操作
+    if(!file.open(QIODevice::ReadOnly)){
+        qDebug()<<"文件打开失败";
+    }
+    //文件中读json字符串
+    QByteArray dataDMIF;
+    dataDMIF=file.readAll();
+    Document DDMIF;
+    if(!DDMIF.Parse(dataDMIF.toStdString().c_str()).HasParseError()){
+        if(DDMIF.HasMember("Data")){
+            Value DataArray(rapidjson::kArrayType);
+            DataArray=DDMIF["Data"];
+            send_dom.AddMember("Data", DataArray, allocator);
+        }
+    }
+    //关闭文件
+    file.close();
+
+
+    StringBuffer buf;
+    Writer<rapidjson::StringBuffer> writer(buf);
+    send_dom.Accept(writer);
+    QByteArray ba_data(buf.GetString());
+    emit Singleton<TcpClientManager>::getInstance().modelSend(ba_data);
+    /*
     Document send_dom;
     Document::AllocatorType& allocator=send_dom.GetAllocator();
     str_value_rj.SetString(dom[gzj_RequestC].GetString(),allocator);
@@ -481,10 +609,115 @@ void TcpClientModel::A4_03_0(Document &dom)
     send_dom.Accept(writer);
     QByteArray ba_data(buf.GetString());
     emit Singleton<TcpClientManager>::getInstance().modelSend(ba_data);
+    */
 }
 //A4 06 0 上位机写网关（操作码06）
 void TcpClientModel::A4_06_0(Document &dom)
 {
+    //文件操作
+    Document copyDom;
+    copyDom.CopyFrom(dom,copyDom.GetAllocator());
+    Value DataFile;
+    DataFile=copyDom["Data"];
+    Document send_dom;
+    Document::AllocatorType& allocator=send_dom.GetAllocator();
+    str_value_rj.SetString(dom[gzj_RequestC].GetString(),allocator);
+    send_dom.SetObject();
+    send_dom.AddMember(gzj_RequestC, str_value_rj, allocator);
+    send_dom.AddMember(gzj_ProtocolV, Ver_gzjVersion, allocator);
+    send_dom.AddMember(gzj_FunctionC, FN_gzjDeviceMI, allocator);
+    send_dom.AddMember(gzj_OperationC, OP_gzjWrite, allocator);
+    send_dom.AddMember(gzj_FunctionC, AF_gzjAnswerNoData, allocator);
+    send_dom.AddMember(gzj_Result, Result_gzjSuccess, allocator);
+    send_dom.AddMember(gzj_ErrorC, EC_gzjNoEC, allocator);
+
+    if (dom.HasMember("Data"))
+    {
+        Value Data;
+        Data = dom["Data"];
+        struct_deviceMIF structDMIF;
+        struct_analyticP structAP;
+        //先取Array
+        if (Data.IsArray() && !Data.Empty())
+        {
+            rapidjson::Value tempData;
+            for (rapidjson::SizeType i = 0; i < Data.Size(); i++)
+            {
+                tempData = Data[i];
+                if (tempData.IsObject())
+                {
+
+                    if (tempData.HasMember("TN") && tempData.HasMember("IT")&& tempData.HasMember("PN")
+                            && tempData.HasMember("CMD")&& tempData.HasMember("PS")&& tempData.HasMember("AP"))
+                    {
+                        structDMIF.VL_TN<<tempData["TN"].GetInt();
+                        structDMIF.VL_IT<<tr(tempData["IT"].GetString());
+                        structDMIF.VL_PN<<tempData["PN"].GetInt();
+                        structDMIF.VL_CMD<<tr(tempData["CMD"].GetString());
+                        structDMIF.VL_PS<<tempData["PS"].GetInt();
+
+                        Value Data2;
+                        Data2 = tempData["AP"];
+                        if (Data2.IsArray() && !Data2.Empty())
+                        {
+                            Value tempData2;
+                            for (rapidjson::SizeType i = 0; i < Data2.Size(); i++)
+                            {
+                                tempData2 = Data2[i];
+                                if (tempData2.IsObject())
+                                {
+                                    if (tempData2.HasMember("TN") && tempData2.HasMember("IT")&& tempData2.HasMember("PN")
+                                            && tempData2.HasMember("CMD")&& tempData2.HasMember("PS")&& tempData2.HasMember("AP"))
+                                    {
+                                        structAP.VL_RB=tempData2["RB"].GetInt();
+                                        structAP.VL_PB=tempData2["PB"].GetInt();
+                                        structAP.VL_TM=tempData2["TM"].GetInt();
+                                        structAP.VL_SI=tr(tempData2["SI"].GetString());
+                                        structAP.VL_DL=tempData2["DL"].GetInt();
+                                        structAP.VL_DT=tr(tempData2["DT"].GetString());
+                                        structAP.VL_Formula=tr(tempData2["Formula"].GetString());
+                                        structAP.VL_UL=tempData2["UL"].GetDouble();
+                                        structAP.VL_LL=tempData2["LL"].GetDouble();
+                                    }
+                                }
+                            }
+                        }
+                        structDMIF.VL_AP<<structAP;
+
+                        qDebug()<<tr(tempData["IT"].GetString());
+                    }
+                }
+            }
+        }
+        APISgrH::set_deviceMIF(structDMIF);
+        //文件操作
+        Document jDDMI;
+        Document::AllocatorType& allocator=jDDMI.GetAllocator();
+        jDDMI.SetObject();
+        jDDMI.AddMember("Data",DataFile,allocator);
+        StringBuffer buf;
+        PrettyWriter<rapidjson::StringBuffer> writer(buf);
+        jDDMI.Accept(writer);
+        QString fileDir = QCoreApplication::applicationDirPath() + "/etc/JsonDeviceMI.txt";
+        QFile file(fileDir);
+        //对文件进行写操作
+        if(!file.open(QIODevice::WriteOnly)){
+            qDebug()<<"文件打开失败";
+        }
+        //向文件中写入字符串
+        file.write(buf.GetString());
+        //关闭文件
+        file.close();
+
+    }
+
+    StringBuffer buf;
+    Writer<rapidjson::StringBuffer> writer(buf);
+    send_dom.Accept(writer);
+    QByteArray ba_data(buf.GetString());
+    emit Singleton<TcpClientManager>::getInstance().modelSend(ba_data);
+
+    /*
     Document send_dom;
     Document::AllocatorType& allocator=send_dom.GetAllocator();
     str_value_rj.SetString(dom[gzj_RequestC].GetString(),allocator);
@@ -544,7 +777,7 @@ void TcpClientModel::A4_06_0(Document &dom)
     send_dom.Accept(writer);
     QByteArray ba_data(buf.GetString());
     emit Singleton<TcpClientManager>::getInstance().modelSend(ba_data);
-
+*/
 }
 
 //A5 00 2 网关主动请求（操作码00)
@@ -769,7 +1002,7 @@ void TcpClientModel::B4_03_0(Document &dom)
     QByteArray ba_data(buf.GetString());
     emit Singleton<TcpClientManager>::getInstance().modelSend(ba_data);
 }
-//C1 03 0 硬件版本读取（操作码03）
+//C1 03 0 时间同步（操作码03）
 void TcpClientModel::C1_03_0(Document &dom)
 {
     Document send_dom;

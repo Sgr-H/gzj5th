@@ -5,8 +5,17 @@ int APISgrH::DRT_i_gzj=10;
 int APISgrH::DLUL_i_gzj=9999;
 int APISgrH::RTCT_i_gzj=6000;
 int APISgrH::seriThreadNameSN=1;
+
 struct_deviceTI APISgrH::deviceTI_SDTI_gzj;
+struct_targetTI APISgrH::targetTI_STTI_gzj;
+struct_circCT APISgrH::circCT_SCCT_gzj;
+struct_deviceMIF APISgrH::deviceMIF_SDMIF_gzj;
+
 QMutex APISgrH::deviceTI_mutex;
+QMutex APISgrH::targetTI_mutex;
+QMutex APISgrH::circCT_mutex;
+QMutex APISgrH::deviceMIF_mutex;
+
 QMutex APISgrH::seriThreadNameSN_mutex;
 SeriSettings::SeriSettings()
 {

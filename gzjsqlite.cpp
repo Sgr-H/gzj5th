@@ -33,10 +33,10 @@ void GzjSqlite::insertDeviceTI(const struct_deviceTI &_struct_DTI)
         }
         if(!sqlDatabase.commit()){
             qDebug() << "commitdeviceTI fail:" << sqlDatabase.lastError().text();
-            APISgrH::set_deviceTI(_struct_DTI);
         }
         else
         {
+            APISgrH::set_deviceTI(_struct_DTI);
             qDebug() << "commit deviceTI Success" ;
         }
     }
@@ -70,6 +70,7 @@ void GzjSqlite::insertTargetTI(const struct_targetTI &_struct_TTI)
         }
         else
         {
+            APISgrH::set_targetTI(_struct_TTI);
             qDebug() << "commit targetTI Success" ;
         }
     }
@@ -147,6 +148,7 @@ void GzjSqlite::insertCircCT(const struct_circCT &_struct_CCT)
         }
         else
         {
+            APISgrH::set_circCT(_struct_CCT);
             qDebug() << "commit circCT Success" ;
         }
     }

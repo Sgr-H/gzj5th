@@ -67,9 +67,10 @@ int main(int argc, char *argv[])
     //明确编码格式
     QTextCodec *codec = QTextCodec::codecForName("utf-8");
     QTextCodec::setCodecForLocale(codec);
-
-    //初始化日志
+    //初始化文件
     QString fileDir = QCoreApplication::applicationDirPath() + "/etc/";
+    createFile(fileDir,"JsonDeviceMI.txt");
+    //初始化日志
     createFile(fileDir, "log.conf");
     Singleton<Log>::getInstance().init(QCoreApplication::applicationDirPath() + "/" +"etc/log.conf");
     Singleton<Log>::getInstance().debug("调试测试日志系统当中...");
