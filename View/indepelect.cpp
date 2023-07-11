@@ -135,7 +135,9 @@ void IndepElect::uiConnect()
     });
     //测试按钮
     connect(ui->pushButton_9,&QPushButton::clicked,this,[=]{
-        Singleton<BridgeManager>::getInstance().SerialSettingINS()->show();
+        QApplication *app;
+        app->exit(0);
+//        Singleton<BridgeManager>::getInstance().SerialSettingINS()->show();
     });
 }
 

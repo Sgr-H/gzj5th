@@ -1,6 +1,8 @@
 #include "widgetui.h"
 #include "ui_widgetui.h"
 #include "bridgemanager.h"
+#include "gzjsqlite.h"
+
 Widgetui::Widgetui(QWidget *parent)
     : FramelessWidget(parent)
     , ui(new Ui::Widgetui)
@@ -13,6 +15,7 @@ Widgetui::Widgetui(QWidget *parent)
     ui->radioButton->setVisible(false);
     this->show();
     init();
+    initGlobal();
 }
 
 Widgetui::~Widgetui()
@@ -73,11 +76,11 @@ void Widgetui::init()
         if(!ui->pushButton_9->isVisible())
             ui->pushButton_9->setVisible(true);
         if(!ui->pushButton_10->isVisible())
-        ui->pushButton_10->setVisible(true);
+            ui->pushButton_10->setVisible(true);
         if(!ui->pushButton_11->isVisible())
-        ui->pushButton_11->setVisible(true);
+            ui->pushButton_11->setVisible(true);
         if(!ui->radioButton->isVisible())
-        ui->radioButton->setVisible(true);
+            ui->radioButton->setVisible(true);
         this->show();
         Singleton<BridgeManager>::getInstance().IndepElectINS()->hide();
     });
@@ -96,6 +99,144 @@ void Widgetui::init()
     connect(ui->pushButton_9,&QPushButton::clicked,this,[=]{
         Singleton<BridgeManager>::getInstance().CommunicateCfgINS()->show();
     });
+}
+
+void Widgetui::initGlobal()
+{
+    //初始化deviceTI全局列表
+    struct_deviceTI structDTI;
+    QSqlQuery sql_query(Singleton<GzjSqlite>::getInstance().sqlDatabase);
+    QString select_sql = "select TN ,PN ,Name ,EnName from deviceTI";
+
+    if(!sql_query.exec(select_sql)){
+        Singleton<Log>::getInstance().debug("exec fail: "+sql_query.lastError().text());
+    }
+    else
+    {
+        while(sql_query.next())
+        {
+            structDTI.VL_TN<<sql_query.value(0).toString();
+            structDTI.VL_PN<<sql_query.value(1).toString();
+            structDTI.VL_Name<<sql_query.value(2).toString();
+            structDTI.VL_EnName<<sql_query.value(3).toString();
+        }
+    }
+    APISgrH::set_deviceTI(structDTI);
+
+    //初始化targetTI全局列表
+    struct_targetTI structTTI;
+    select_sql = "select TN ,Type ,Name ,EnName ,Unit from targetTI";
+
+    if(!sql_query.exec(select_sql)){
+        Singleton<Log>::getInstance().debug("exec fail: "+sql_query.lastError().text());
+    }
+    else
+    {
+        while(sql_query.next())
+        {
+            structTTI.VL_TN<<sql_query.value(0).toString();
+            structTTI.VL_Type<<sql_query.value(1).toInt();
+            structTTI.VL_Name<<sql_query.value(2).toString();
+            structTTI.VL_EnName<<sql_query.value(3).toString();
+            structTTI.VL_Unit<<sql_query.value(4).toString();
+        }
+    }
+    APISgrH::set_targetTI(structTTI);
+
+    //初始化circCT全局列表
+    struct_circCT strucCT;
+    select_sql = "select TN ,Addr ,VA ,SP ,IT ,CF ,UF from circCT";
+
+    if(!sql_query.exec(select_sql)){
+        Singleton<Log>::getInstance().debug("exec fail: "+sql_query.lastError().text());
+    }
+    else
+    {
+        while(sql_query.next())
+        {
+            strucCT.VL_TN<<sql_query.value(0).toInt();
+            strucCT.VL_Addr<<sql_query.value(1).toString();
+            strucCT.VL_VA<<sql_query.value(2).toString();
+            strucCT.VL_SP<<sql_query.value(3).toString();
+            strucCT.VL_IT<<sql_query.value(4).toString();
+            strucCT.VL_CF<<sql_query.value(5).toString();
+            strucCT.VL_UF<<sql_query.value(6).toString();
+        }
+    }
+    APISgrH::set_circCT(strucCT);
+
+    //初始化deviceMIF全局列表
+    QString fileDir = QCoreApplication::applicationDirPath() + "/etc/JsonDeviceMI.txt";
+    QFile file(fileDir);
+    //对文件进行写操作
+    if(!file.open(QIODevice::ReadOnly)){
+        qDebug()<<"文件打开失败";
+    }
+    //文件中读json字符串
+    QByteArray dataDMIF;
+    dataDMIF=file.readAll();
+    Document DDMIF;
+    if(!DDMIF.Parse(dataDMIF.toStdString().c_str()).HasParseError()){
+        if(DDMIF.HasMember("Data")){
+            Value Data(rapidjson::kArrayType);
+            Data=DDMIF["Data"];
+            struct_deviceMIF structDMIF;
+            struct_analyticP structAP;
+            //先取Array
+            if (Data.IsArray() && !Data.Empty())
+            {
+                rapidjson::Value tempData;
+                for (rapidjson::SizeType i = 0; i < Data.Size(); i++)
+                {
+                    tempData = Data[i];
+                    if (tempData.IsObject())
+                    {
+
+                        if (tempData.HasMember("TN") && tempData.HasMember("IT")&& tempData.HasMember("PN")
+                                && tempData.HasMember("CMD")&& tempData.HasMember("PS")&& tempData.HasMember("AP"))
+                        {
+                            structDMIF.VL_TN<<tempData["TN"].GetInt();
+                            structDMIF.VL_IT<<tr(tempData["IT"].GetString());
+                            structDMIF.VL_PN<<tempData["PN"].GetInt();
+                            structDMIF.VL_CMD<<tr(tempData["CMD"].GetString());
+                            structDMIF.VL_PS<<tempData["PS"].GetInt();
+
+                            Value Data2;
+                            Data2 = tempData["AP"];
+                            if (Data2.IsArray() && !Data2.Empty())
+                            {
+                                Value tempData2;
+                                for (rapidjson::SizeType i = 0; i < Data2.Size(); i++)
+                                {
+                                    tempData2 = Data2[i];
+                                    if (tempData2.IsObject())
+                                    {
+                                        if (tempData2.HasMember("TN") && tempData2.HasMember("IT")&& tempData2.HasMember("PN")
+                                                && tempData2.HasMember("CMD")&& tempData2.HasMember("PS")&& tempData2.HasMember("AP"))
+                                        {
+                                            structAP.VL_RB=tempData2["RB"].GetInt();
+                                            structAP.VL_PB=tempData2["PB"].GetInt();
+                                            structAP.VL_TM=tempData2["TM"].GetInt();
+                                            structAP.VL_SI=tr(tempData2["SI"].GetString());
+                                            structAP.VL_DL=tempData2["DL"].GetInt();
+                                            structAP.VL_DT=tr(tempData2["DT"].GetString());
+                                            structAP.VL_Formula=tr(tempData2["Formula"].GetString());
+                                            structAP.VL_UL=tempData2["UL"].GetDouble();
+                                            structAP.VL_LL=tempData2["LL"].GetDouble();
+                                        }
+                                    }
+                                }
+                            }
+                            structDMIF.VL_AP<<structAP;
+                        }
+                    }
+                }
+            }
+            APISgrH::set_deviceMIF(structDMIF);
+        }
+    }
+    //关闭文件
+    file.close();
 }
 
 void Widgetui::jumpWriteSetting(int _var)

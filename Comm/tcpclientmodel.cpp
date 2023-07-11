@@ -799,14 +799,14 @@ void TcpClientModel::A5_00_2(Document &dom)
                 {
 
                     if (tempData.HasMember("TN") && tempData.HasMember("Addr")&& tempData.HasMember("VA")
-                            && tempData.HasMember("SP")&& tempData.HasMember("CMD")&& tempData.HasMember("CF")
+                            && tempData.HasMember("SP")&& tempData.HasMember("IT")&& tempData.HasMember("CF")
                             && tempData.HasMember("UF"))
                     {
                         structCCT.VL_TN<<tempData["TN"].GetInt();
                         structCCT.VL_Addr<<tr(tempData["Addr"].GetString());
                         structCCT.VL_VA<<tempData["VA"].GetInt();
                         structCCT.VL_SP<<tr(tempData["SP"].GetString());
-                        structCCT.VL_CMD<<tr(tempData["CMD"].GetString());
+                        structCCT.VL_IT<<tr(tempData["IT"].GetString());
                         structCCT.VL_CF<<tr(tempData["CF"].GetString());
                         structCCT.VL_UF<<tr(tempData["UF"].GetString());
 
@@ -832,7 +832,7 @@ void TcpClientModel::A5_03_0(Document &dom)
     send_dom.AddMember(gzj_FunctionC, AF_gjzAnswerData, allocator);
 
     QSqlQuery sql_query(Singleton<GzjSqlite>::getInstance().sqlDatabase);
-    QString select_sql = "select TN ,Addr ,VA ,SP ,CMD ,CF ,UF from circCT";
+    QString select_sql = "select TN ,Addr ,VA ,SP ,IT ,CF ,UF from circCT";
 
     if(!sql_query.exec(select_sql)){
         Singleton<Log>::getInstance().debug("exec fail: "+sql_query.lastError().text());
@@ -852,7 +852,7 @@ void TcpClientModel::A5_03_0(Document &dom)
             str_value_rj.SetString(sql_query.value(3).toString().toStdString().c_str(), allocator);
             Data.AddMember("SP", str_value_rj, allocator);
             str_value_rj.SetString(sql_query.value(4).toString().toStdString().c_str(), allocator);
-            Data.AddMember("CMD", str_value_rj, allocator);
+            Data.AddMember("IT", str_value_rj, allocator);
             str_value_rj.SetString(sql_query.value(5).toString().toStdString().c_str(), allocator);
             Data.AddMember("CF", str_value_rj, allocator);
             str_value_rj.SetString(sql_query.value(6).toString().toStdString().c_str(), allocator);
@@ -899,14 +899,14 @@ void TcpClientModel::A5_06_0(Document &dom)
                 {
 
                     if (tempData.HasMember("TN") && tempData.HasMember("Addr")&& tempData.HasMember("VA")
-                            && tempData.HasMember("SP")&& tempData.HasMember("CMD")&& tempData.HasMember("CF")
+                            && tempData.HasMember("SP")&& tempData.HasMember("IT")&& tempData.HasMember("CF")
                             && tempData.HasMember("UF"))
                     {
                         structCCT.VL_TN<<tempData["TN"].GetInt();
                         structCCT.VL_Addr<<tr(tempData["Addr"].GetString());
                         structCCT.VL_VA<<tempData["VA"].GetInt();
                         structCCT.VL_SP<<tr(tempData["SP"].GetString());
-                        structCCT.VL_CMD<<tr(tempData["CMD"].GetString());
+                        structCCT.VL_IT<<tr(tempData["IT"].GetString());
                         structCCT.VL_CF<<tr(tempData["CF"].GetString());
                         structCCT.VL_UF<<tr(tempData["UF"].GetString());
 

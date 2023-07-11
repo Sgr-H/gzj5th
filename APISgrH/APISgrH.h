@@ -102,7 +102,7 @@ public:
    QVariantList VL_Addr;
    QVariantList VL_VA;
    QVariantList VL_SP;
-   QVariantList VL_CMD;
+   QVariantList VL_IT;
    QVariantList VL_CF;
    QVariantList VL_UF;
 };

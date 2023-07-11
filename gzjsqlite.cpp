@@ -133,7 +133,7 @@ void GzjSqlite::insertCircCT(const struct_circCT &_struct_CCT)
         sql_query.addBindValue(_struct_CCT.VL_Addr);
         sql_query.addBindValue(_struct_CCT.VL_VA);
         sql_query.addBindValue(_struct_CCT.VL_SP);
-        sql_query.addBindValue(_struct_CCT.VL_CMD);
+        sql_query.addBindValue(_struct_CCT.VL_IT);
         sql_query.addBindValue(_struct_CCT.VL_CF);
         sql_query.addBindValue(_struct_CCT.VL_UF);
 
@@ -254,7 +254,7 @@ void GzjSqlite::initTable()
         if(!tableNameList.contains("circCT")){
             //            使用sql语句创建表并且初始化字段
             QString createTable_sql = "create table circCT (TN int,Addr varchar(20),VA int,SP varchar(20),"
-                                      "CMD varchar(200),CF varchar(20),UF varchar(20))";
+                                      "IT varchar(200),CF varchar(20),UF varchar(20))";
             sql_query.prepare(createTable_sql);
             if(!sql_query.exec())
             {
